@@ -34,7 +34,7 @@ public class RobotTest extends Sprite {
 		setTimeout(start, 2000);
 	}
 	
-	private function start():void {
+	public function start():void {
 		this.initTime = getTimer();
 		
 		context = new RobotTestContext(this);

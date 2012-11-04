@@ -18,6 +18,17 @@ public class Note {
 	static public const TEST_COMMAND_9:String = "testCommand9";
 	static public const TEST_COMMAND_10:String = "testCommand10";
 	
+	static public const TEST_COMMAND_POOL_0:String = "testCommandPool0";
+	static public const TEST_COMMAND_POOL_1:String = "testCommandPool1";
+	static public const TEST_COMMAND_POOL_2:String = "testCommandPool2";
+	static public const TEST_COMMAND_POOL_3:String = "testCommandPool3";
+	static public const TEST_COMMAND_POOL_4:String = "testCommandPool4";
+	static public const TEST_COMMAND_POOL_5:String = "testCommandPool5";
+	static public const TEST_COMMAND_POOL_6:String = "testCommandPool6";
+	static public const TEST_COMMAND_POOL_7:String = "testCommandPool7";
+	static public const TEST_COMMAND_POOL_8:String = "testCommandPool8";
+	static public const TEST_COMMAND_POOL_9:String = "testCommandPool9";
+	static public const TEST_COMMAND_POOL_10:String = "testCommandPool10";
 	
 	static public const APPEND_LINE:String = "appendLine";
 	

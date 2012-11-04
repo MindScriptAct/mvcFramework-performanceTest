@@ -45,6 +45,18 @@ public class TestNames {
 	static public const MEDIATOR_COMMUNICATE_500:String = "Mediator Communicate 500";
 	static public const MEDIATOR_COMMUNICATE_1000:String = "Mediator Communicate 1000";
 	
+	static public const COMMAND_POOL_EMPTY:String = "Pooled Command with 0 inject";
+	static public const COMMAND_POOL_INJECT_1:String = "Pooled Command with 1 inject";
+	static public const COMMAND_POOL_INJECT_2:String = "Pooled Command with 2 inject";
+	static public const COMMAND_POOL_INJECT_3:String = "Pooled Command with 3 inject";
+	static public const COMMAND_POOL_INJECT_4:String = "Pooled Command with 4 inject";
+	static public const COMMAND_POOL_INJECT_5:String = "Pooled Command with 5 inject";
+	static public const COMMAND_POOL_INJECT_6:String = "Pooled Command with 6 inject";
+	static public const COMMAND_POOL_INJECT_7:String = "Pooled Command with 7 inject";
+	static public const COMMAND_POOL_INJECT_8:String = "Pooled Command with 8 inject";
+	static public const COMMAND_POOL_INJECT_9:String = "Pooled Command with 9 inject";
+	static public const COMMAND_POOL_INJECT_10:String = "Pooled Command with 10 inject";
+	
 	
 
 }

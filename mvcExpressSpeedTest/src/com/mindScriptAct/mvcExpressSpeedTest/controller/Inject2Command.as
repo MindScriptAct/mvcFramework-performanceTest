@@ -6,13 +6,15 @@ import com.mindScriptAct.mvcExpressSpeedTest.model.BlankProxy;
  * COMMENT
  * @author rbanevicius
  */
-public class Inject1Command extends Command {
+public class Inject2Command extends Command {
 	
 	[Inject]
-	public var blankProxy:BlankProxy;
+	public var blankProxy1:BlankProxy;
+	[Inject]
+	public var blankProxy2:BlankProxy;	
 	
 	public function execute(params:Object):void {
-		//trace("Inject1Command.execute > notice : " + notice);
+		//trace("Inject2Command.execute > notice : " + notice);
 	}
 
 }

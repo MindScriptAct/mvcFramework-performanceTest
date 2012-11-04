@@ -17,6 +17,17 @@ public class Note {
 	static public const ACTIVATE_MEDIATOR:String = "activateMediator";
 	
 	static public const MEDIATOR_COMM_TEST:String = "mediatorCommTest";
+	
+	static public const CALL_COMMANDS_1:String = "callCommands1";
+	static public const CALL_COMMANDS_2:String = "callCommands2";
+	static public const CALL_COMMANDS_3:String = "callCommands3";
+	static public const CALL_COMMANDS_4:String = "callCommands4";
+	static public const CALL_COMMANDS_5:String = "callCommands5";
+	static public const CALL_COMMANDS_6:String = "callCommands6";
+	static public const CALL_COMMANDS_7:String = "callCommands7";
+	static public const CALL_COMMANDS_8:String = "callCommands8";
+	static public const CALL_COMMANDS_9:String = "callCommands9";
+	static public const CALL_COMMANDS_10:String = "callCommands10";
 
 }
 }

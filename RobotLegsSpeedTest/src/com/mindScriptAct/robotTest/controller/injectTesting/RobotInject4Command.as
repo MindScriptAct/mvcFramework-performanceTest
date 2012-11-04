@@ -1,4 +1,5 @@
 package com.mindScriptAct.robotTest.controller.injectTesting {
+import com.mindScriptAct.robotTest.model.mock.MockModel;
 import flash.display.DisplayObjectContainer;
 import flash.events.IEventDispatcher;
 import org.robotlegs.core.ICommandMap;
@@ -11,16 +12,13 @@ import org.robotlegs.core.IInjector;
 public class RobotInject4Command {
 	
 	[Inject]
-	public var contextView:DisplayObjectContainer;
-	
+	public var mockModel1:MockModel;
 	[Inject]
-	public var commandMap:ICommandMap;
-	
+	public var mockModel2:MockModel;
 	[Inject]
-	public var eventDispatcher:IEventDispatcher;
-	
+	public var mockModel3:MockModel;
 	[Inject]
-	public var injector:IInjector;
+	public var mockModel4:MockModel;
 	
 	public function execute():void {
 		//trace( "RobotEmptyCommand.execute" );

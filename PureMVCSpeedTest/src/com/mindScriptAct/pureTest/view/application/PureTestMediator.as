@@ -67,8 +67,10 @@ public class PureTestMediator extends Mediator implements IMediator {
 			
 			case Note.REMOVE_TEST_VIEW: 
 				var oldObject:TestSprite = childStack.pop();
-				facade.removeMediator(PureTestSpriteMediator.PRE_NAME + oldObject.uniqueId);
-				childHolder.removeChild(oldObject);
+				if (oldObject) {
+					facade.removeMediator(PureTestSpriteMediator.PRE_NAME + oldObject.uniqueId);
+					childHolder.removeChild(oldObject);
+				}
 				break;
 			
 			case Note.ACTIVATE_MEDIATOR: 

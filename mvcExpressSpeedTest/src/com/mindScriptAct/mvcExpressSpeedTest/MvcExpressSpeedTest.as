@@ -14,7 +14,7 @@ public class MvcExpressSpeedTest extends Sprite {
 	
 	public var initTime:int;
 	
-	private var context:AppModule;
+	public var context:AppModule;
 	
 	public function MvcExpressSpeedTest():void {
 		if (stage)
@@ -35,7 +35,7 @@ public class MvcExpressSpeedTest extends Sprite {
 		start();
 	}
 	
-	private function start():void {
+	public function start():void {
 		this.initTime = getTimer();
 		
 		context = new AppModule();
