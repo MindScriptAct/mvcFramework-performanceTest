@@ -16,7 +16,7 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'11/21/2012'</value>
+      <value>'11/24/2012'</value>
     </define>
     <define append="true">
       <name>CONFIG::air</name>
@@ -34,16 +34,16 @@
     <omit-trace-statements>true</omit-trace-statements>
     <verbose-stacktraces>false</verbose-stacktraces>
     <source-path append="true">
-      <path-element>C:\Users\rbanevicius\Dropbox\!workspace\as3-mvcFramework-performanceTest\communicationSpeedTest\src</path-element>
-      <path-element>C:\Users\rbanevicius\Dropbox\!workspace\as3-mvcFramework-performanceTest\communicationSpeedTest\libsrc</path-element>
+      <path-element>C:\Users\Deril\Dropbox\!workspace\as3-mvcFramework-performanceTest\communicationSpeedTest\src</path-element>
+      <path-element>C:\Users\Deril\Dropbox\!workspace\as3-mvcFramework-performanceTest\communicationSpeedTest\libsrc</path-element>
       <path-element>C:\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true">
-      <path-element>C:\Users\rbanevicius\Dropbox\!workspace\as3-mvcFramework-performanceTest\communicationSpeedTest\lib\as3-signals-v0.8.swc</path-element>
+      <path-element>C:\Users\Deril\Dropbox\!workspace\as3-mvcFramework-performanceTest\communicationSpeedTest\lib\as3-signals-v0.8.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>
-    <path-element>C:\Users\rbanevicius\Dropbox\!workspace\as3-mvcFramework-performanceTest\communicationSpeedTest\src\Main.as</path-element>
+    <path-element>C:\Users\Deril\Dropbox\!workspace\as3-mvcFramework-performanceTest\communicationSpeedTest\src\Main.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
   <default-frame-rate>30</default-frame-rate>
