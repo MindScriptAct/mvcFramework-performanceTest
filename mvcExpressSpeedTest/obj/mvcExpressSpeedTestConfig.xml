@@ -16,7 +16,19 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'11/4/2012'</value>
+      <value>'11/24/2012'</value>
+    </define>
+    <define append="true">
+      <name>CONFIG::air</name>
+      <value>false</value>
+    </define>
+    <define append="true">
+      <name>CONFIG::mobile</name>
+      <value>false</value>
+    </define>
+    <define append="true">
+      <name>CONFIG::desktop</name>
+      <value>false</value>
     </define>
     <optimize>true</optimize>
     <omit-trace-statements>true</omit-trace-statements>
@@ -27,7 +39,7 @@
     </source-path>
   </compiler>
   <file-specs>
-    <path-element>C:\Users\Deril\Dropbox\!workspace\as3-mvcFramework-performanceTest\mvcExpressSpeedTest\src\com\mindScriptAct\mvcExpressStressTest\StressTest.as</path-element>
+    <path-element>C:\Users\Deril\Dropbox\!workspace\as3-mvcFramework-performanceTest\mvcExpressSpeedTest\src\com\mindScriptAct\mvcExpressSpeedTest\MvcExpressSpeedTest.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
   <default-frame-rate>30</default-frame-rate>

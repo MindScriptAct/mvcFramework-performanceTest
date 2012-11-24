@@ -31,8 +31,7 @@ public class MvcExpressSpeedTest extends Sprite {
 		//
 		
 		// vm warm up:
-		//setTimeout(start, 2000);
-		start();
+		setTimeout(start, 2000);
 	}
 	
 	public function start():void {

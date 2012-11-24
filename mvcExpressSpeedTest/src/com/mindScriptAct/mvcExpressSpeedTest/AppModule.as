@@ -32,6 +32,7 @@ import org.mvcexpress.utils.checkClassStringConstants;
 public class AppModule extends ModuleCore {
 	private var performanceTest:PerformanceTest;
 	private var coreInitTime:int;
+	private var mvcExpressSpeedTest:MvcExpressSpeedTest;
 	
 	public function AppModule() {
 		super();
@@ -42,6 +43,7 @@ public class AppModule extends ModuleCore {
 	}
 	
 	public function start(mvcExpressSpeedTest:MvcExpressSpeedTest):void {
+		this.mvcExpressSpeedTest = mvcExpressSpeedTest;
 		coreInitTime = getTimer() - mvcExpressSpeedTest.initTime;
 		
 		CONFIG::debug {
@@ -157,7 +159,7 @@ public class AppModule extends ModuleCore {
 		for (var i:int = 0; i < 1000; i++) {
 			sendMessage(Note.REMOVE_TEST_VIEW, 1);
 		}
-		sendMessage(Note.APPEND_LINE, "ALL TESTS DONE!");
+		sendMessage(Note.APPEND_LINE, "ALL TESTS DONE! (in " + ((getTimer() - mvcExpressSpeedTest.initTime) / 1000).toFixed(2) + "s)");
 	}
 	
 	private function handleTestComplete(event:Event):void {
