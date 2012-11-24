@@ -13,12 +13,11 @@ public class CallBackReceiver {
 	}
 	
 	private function simpleFunction(stringData:String):void {
-		trace( "CallBackReceiver.simpleFunction > stringData : " + stringData );
-	
+		var tempData:String = stringData;
 	}
 	
 	private function complexFunction(stringData:String, intData:int, numberData:Number, arrayData:Array, pointData:Point):void {
-	
+		var tempData:String = stringData;
 	}
 
 }
