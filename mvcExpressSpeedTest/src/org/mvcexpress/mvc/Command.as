@@ -29,7 +29,7 @@ dynamic public class Command {
 	
 	/** Handles application Mediators. */
 	public var mediatorMap:MediatorMap;
-	
+		
 	/**
 	 * flag to store if command is executed by commandMap.
 	 * @private
@@ -68,7 +68,8 @@ dynamic public class Command {
 		// log the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceCommand_sendMessage(MvcTraceActions.COMMAND_SENDMESSAGE, messenger.moduleName, this, type, params));
+			var moduleName:String = messenger.moduleName;
+			MvcExpress.debug(new TraceCommand_sendMessage(MvcTraceActions.COMMAND_SENDMESSAGE, moduleName, this, type, params));
 		}
 		//
 		messenger.send(type, params);
@@ -76,7 +77,7 @@ dynamic public class Command {
 		// clean up loging the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceCommand_sendMessage(MvcTraceActions.COMMAND_SENDMESSAGE_CLEAN, messenger.moduleName, this, type, params));
+			MvcExpress.debug(new TraceCommand_sendMessage(MvcTraceActions.COMMAND_SENDMESSAGE_CLEAN, moduleName, this, type, params));
 		}
 	}
 	
@@ -91,7 +92,8 @@ dynamic public class Command {
 		// log the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceCommand_sendScopeMessage(MvcTraceActions.COMMAND_SENDSCOPEMESSAGE, messenger.moduleName, this, type, params));
+			var moduleName:String = messenger.moduleName;
+			MvcExpress.debug(new TraceCommand_sendScopeMessage(MvcTraceActions.COMMAND_SENDSCOPEMESSAGE, moduleName, this, type, params));
 		}
 		//
 		ModuleManager.sendScopeMessage(scopeName, type, params);
@@ -99,17 +101,10 @@ dynamic public class Command {
 		// clean up loging the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceCommand_sendScopeMessage(MvcTraceActions.COMMAND_SENDSCOPEMESSAGE_CLEAN, messenger.moduleName, this, type, params));
+			MvcExpress.debug(new TraceCommand_sendScopeMessage(MvcTraceActions.COMMAND_SENDSCOPEMESSAGE_CLEAN, moduleName, this, type, params));
 		}
 	}
 	
-	/**
-	 * Returns always true. Commands can not be locked. (Only PooledCommands can.)
-	 */
-	public function get isLocked():Boolean {
-		return true;
-	}
-
 	// execute function is not meant to be overridden in mvcExpress.
 	// Because I want commands to have custom parameter object - you have to manually create execute() function in your commands.
 	//public function execute(params:Object):void {
