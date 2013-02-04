@@ -4,6 +4,7 @@ package org.mvcexpress.core.traceObjects {
 /**
  * Base of all trace objects.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @private
  */
 dynamic public class TraceObj {
 	
@@ -13,9 +14,9 @@ dynamic public class TraceObj {
 	// can print debug text.
 	public var canPrint:Boolean = true;
 	
-	public function TraceObj(action:String, moduleName:String) {
-		this.action = action;
-		this.moduleName = moduleName;
+	public function TraceObj($action:String, $moduleName:String) {
+		action = $action;
+		moduleName = $moduleName;
 	}
 	
 	public function toString():String {

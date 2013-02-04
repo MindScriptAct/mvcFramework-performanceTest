@@ -97,7 +97,7 @@ package org.puremvc.as3.patterns.observer
 		 */
 		public function notifyObserver( notification:INotification ):void
 		{
-			this.getNotifyMethod().apply(this.getNotifyContext(), [notification]);
+			this.getNotifyMethod().apply(this.getNotifyContext(),[notification]);
 		}
 	
 		/**

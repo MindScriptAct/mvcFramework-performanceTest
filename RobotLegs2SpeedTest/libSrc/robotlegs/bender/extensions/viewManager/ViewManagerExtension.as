@@ -14,28 +14,34 @@ package robotlegs.bender.extensions.viewManager
 	import robotlegs.bender.framework.api.IContext;
 	import robotlegs.bender.framework.api.IExtension;
 
+	/**
+	 * This extension install a View Manager into the context
+	 */
 	public class ViewManagerExtension implements IExtension
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Static Properties                                                  */
-		//============================================================================
+		/*============================================================================*/
 
 		// Really? Yes, there can be only one.
 		private static var _containerRegistry:ContainerRegistry;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private var _injector:Injector;
 
 		private var _viewManager:IViewManager;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function extend(context:IContext):void
 		{
 			_injector = context.injector;
@@ -47,13 +53,13 @@ package robotlegs.bender.extensions.viewManager
 			// But you get your own View Manager
 			_injector.map(IViewManager).toSingleton(ViewManager);
 
-			context.lifecycle.whenInitializing(whenInitializing);
-			context.lifecycle.whenDestroying(whenDestroying);
+			context.whenInitializing(whenInitializing);
+			context.whenDestroying(whenDestroying);
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function whenInitializing():void
 		{

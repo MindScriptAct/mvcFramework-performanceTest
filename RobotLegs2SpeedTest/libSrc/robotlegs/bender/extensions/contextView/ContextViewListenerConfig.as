@@ -18,9 +18,9 @@ package robotlegs.bender.extensions.contextView
 	public class ContextViewListenerConfig
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Properties                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		[Inject]
 		public var contextView:ContextView;
@@ -28,11 +28,14 @@ package robotlegs.bender.extensions.contextView
 		[Inject]
 		public var viewManager:IViewManager;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
 		[PostConstruct]
+		/**
+		 * Adds the Context View to the View Manager at startup
+		 */
 		public function init():void
 		{
 			viewManager.addContainer(contextView.view);

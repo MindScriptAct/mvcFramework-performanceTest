@@ -20,36 +20,47 @@ package robotlegs.bender.extensions.scopedMessageDispatcher
 	public class ScopedMessageDispatcherExtension implements IExtension
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private var _names:Array;
 
 		private var _injector:Injector;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * Creates a Scoped Message Dispatcher Extension
+		 *
+		 * <p>Note: Names that have already been registered with a parent context
+		 * will not be mapped into this context Injector and will instead be inherited.</p>
+		 *
+		 * @param names A list of IMessageDispatcher names to map into the Injector
+		 */
 		public function ScopedMessageDispatcherExtension(... names)
 		{
 			_names = (names.length > 0) ? names : ["global"];
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function extend(context:IContext):void
 		{
 			_injector = context.injector;
-			context.lifecycle.whenInitializing(whenInitializing);
+			context.whenInitializing(whenInitializing);
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function whenInitializing():void
 		{

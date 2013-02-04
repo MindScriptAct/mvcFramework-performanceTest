@@ -12,20 +12,27 @@ package robotlegs.bender.extensions.commandCenter
 	import robotlegs.bender.framework.api.IContext;
 	import robotlegs.bender.framework.api.IExtension;
 
+	/**
+	 * A low level extension that provides common command mapping functionality
+	 * for use in concrete command mapping extensions
+	 */
 	public class CommandCenterExtension implements IExtension
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function extend(context:IContext):void
 		{
 			context.injector.map(ICommandCenter).toSingleton(CommandCenter);
 			// TODO: Investigate SwiftSuspenders circular dependency handling
 			// Place a [PostConstruct] tag above the logger setter
 			// in CommandCenter to see what I mean
-			context.lifecycle.whenInitializing(function():void {
+			context.whenInitializing(function():void {
 				const commandCenter:CommandCenter = context.injector.getInstance(ICommandCenter);
 				commandCenter.logger = context.getLogger(commandCenter);
 			});

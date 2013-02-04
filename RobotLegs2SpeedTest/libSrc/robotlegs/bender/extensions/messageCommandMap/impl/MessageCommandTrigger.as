@@ -17,12 +17,15 @@ package robotlegs.bender.extensions.messageCommandMap.impl
 	import robotlegs.bender.framework.impl.guardsApprove;
 	import robotlegs.bender.framework.impl.safelyCallBack;
 
+	/**
+	 * @private
+	 */
 	public class MessageCommandTrigger implements ICommandTrigger
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 
 		private const _mappings:Vector.<ICommandMapping> = new Vector.<ICommandMapping>;
@@ -33,10 +36,13 @@ package robotlegs.bender.extensions.messageCommandMap.impl
 
 		private var _message:Object;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @private
+		 */
 		public function MessageCommandTrigger(
 			injector:Injector,
 			dispatcher:IMessageDispatcher,
@@ -47,10 +53,13 @@ package robotlegs.bender.extensions.messageCommandMap.impl
 			_message = message;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function addMapping(mapping:ICommandMapping):void
 		{
 			verifyCommandClass(mapping);
@@ -59,6 +68,9 @@ package robotlegs.bender.extensions.messageCommandMap.impl
 				addHandler();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeMapping(mapping:ICommandMapping):void
 		{
 			const index:int = _mappings.indexOf(mapping);
@@ -70,9 +82,9 @@ package robotlegs.bender.extensions.messageCommandMap.impl
 			}
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function verifyCommandClass(mapping:ICommandMapping):void
 		{

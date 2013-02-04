@@ -9,21 +9,28 @@ package robotlegs.bender.extensions.commandCenter.impl
 {
 	import robotlegs.bender.extensions.commandCenter.dsl.ICommandUnmapper;
 
+	/**
+	 * @private
+	 */
 	public class NullCommandUnmapper implements ICommandUnmapper
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function fromCommand(commandClass:Class):void
 		{
-
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function fromAll():void
 		{
-
 		}
 	}
 }

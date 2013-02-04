@@ -10,12 +10,16 @@ package robotlegs.bender.extensions.viewManager.impl
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 
+	/**
+	 * Container existence event
+	 * @private
+	 */
 	public class ContainerRegistryEvent extends Event
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Static Properties                                                   */
-		//============================================================================
+		/*============================================================================*/
 
 		public static const CONTAINER_ADD:String = 'containerAdd';
 
@@ -25,31 +29,42 @@ package robotlegs.bender.extensions.viewManager.impl
 
 		public static const ROOT_CONTAINER_REMOVE:String = 'rootContainerRemove';
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Properties                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private var _container:DisplayObjectContainer;
 
+		/**
+		 * The container associated with this event
+		 */
 		public function get container():DisplayObjectContainer
 		{
 			return _container;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * Creates a new container existence event
+		 * @param type The event type
+		 * @param container The container associated with this event
+		 */
 		public function ContainerRegistryEvent(type:String, container:DisplayObjectContainer)
 		{
 			super(type);
 			_container = container;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		override public function clone():Event
 		{
 			return new ContainerRegistryEvent(type, _container);

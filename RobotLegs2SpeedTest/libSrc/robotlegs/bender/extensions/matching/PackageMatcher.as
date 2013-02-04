@@ -9,31 +9,41 @@ package robotlegs.bender.extensions.matching
 {
 	import flash.errors.IllegalOperationError;
 
-	// TODO: review (location)
+	/**
+	 * A Package Matcher matches types in a given package
+	 */
 	public class PackageMatcher implements ITypeMatcher
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Protected Properties                                                       */
-		//============================================================================
-
-		protected var _requirePackage:String;
+		/*============================================================================*/
 
 		protected const _anyOfPackages:Vector.<String> = new Vector.<String>();
 
 		protected const _noneOfPackages:Vector.<String> = new Vector.<String>();
 
+		protected var _requirePackage:String;
+
 		protected var _typeFilter:ITypeFilter;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function createTypeFilter():ITypeFilter
 		{
 			return _typeFilter ||= buildTypeFilter();
 		}
 
+		/**
+		 * The full package that is required
+		 * @param fullPackage
+		 * @return Self
+		 */
 		public function require(fullPackage:String):PackageMatcher
 		{
 			if (_typeFilter)
@@ -46,26 +56,35 @@ package robotlegs.bender.extensions.matching
 			return this;
 		}
 
+		/**
+		 * Any packages that an item might be declared
+		 */
 		public function anyOf(... packages):PackageMatcher
 		{
 			pushAddedPackagesTo(packages, _anyOfPackages);
 			return this;
 		}
 
+		/**
+		 * Packages that an item must not live in
+		 */
 		public function noneOf(... packages):PackageMatcher
 		{
 			pushAddedPackagesTo(packages, _noneOfPackages);
 			return this;
 		}
 
+		/**
+		 * Locks this matcher
+		 */
 		public function lock():void
 		{
 			createTypeFilter();
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Protected Functions                                                        */
-		//============================================================================
+		/*============================================================================*/
 
 		protected function buildTypeFilter():ITypeFilter
 		{

@@ -10,30 +10,40 @@ package robotlegs.bender.extensions.viewProcessorMap.utils
 	import flash.utils.Dictionary;
 	import org.swiftsuspenders.Injector;
 
+	/**
+	 * Simple Mediator creation processor
+	 */
 	public class MediatorCreator
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private var _mediatorClass:Class;
 
 		private const _createdMediatorsByView:Dictionary = new Dictionary(true);
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * Mediator Creator Processor
+		 * @param mediatorClass The mediator class to create
+		 */
 		public function MediatorCreator(mediatorClass:Class)
 		{
 			_mediatorClass = mediatorClass;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @private
+		 */
 		public function process(view:Object, type:Class, injector:Injector):void
 		{
 			if (_createdMediatorsByView[view])
@@ -45,6 +55,9 @@ package robotlegs.bender.extensions.viewProcessorMap.utils
 			initializeMediator(view, mediator);
 		}
 
+		/**
+		 * @private
+		 */
 		public function unprocess(view:Object, type:Class, injector:Injector):void
 		{
 			if (_createdMediatorsByView[view])
@@ -54,9 +67,9 @@ package robotlegs.bender.extensions.viewProcessorMap.utils
 			}
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function initializeMediator(view:Object, mediator:Object):void
 		{

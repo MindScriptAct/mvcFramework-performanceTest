@@ -14,12 +14,15 @@ package robotlegs.bender.extensions.mediatorMap.impl
 	import robotlegs.bender.extensions.mediatorMap.api.IMediatorMapping;
 	import robotlegs.bender.extensions.mediatorMap.api.IMediatorViewHandler;
 
+	/**
+	 * @private
+	 */
 	public class MediatorViewHandler implements IMediatorViewHandler
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private const _mappings:Array = [];
 
@@ -27,19 +30,25 @@ package robotlegs.bender.extensions.mediatorMap.impl
 
 		private var _factory:IMediatorFactory;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @private
+		 */
 		public function MediatorViewHandler(factory:IMediatorFactory):void
 		{
 			_factory = factory;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function addMapping(mapping:IMediatorMapping):void
 		{
 			const index:int = _mappings.indexOf(mapping);
@@ -49,6 +58,9 @@ package robotlegs.bender.extensions.mediatorMap.impl
 			flushCache();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeMapping(mapping:IMediatorMapping):void
 		{
 			const index:int = _mappings.indexOf(mapping);
@@ -58,6 +70,9 @@ package robotlegs.bender.extensions.mediatorMap.impl
 			flushCache();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function handleView(view:DisplayObject, type:Class):void
 		{
 			const interestedMappings:Array = getInterestedMappingsFor(view, type);
@@ -65,6 +80,9 @@ package robotlegs.bender.extensions.mediatorMap.impl
 				_factory.createMediators(view, type, interestedMappings);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function handleItem(item:Object, type:Class):void
 		{
 			const interestedMappings:Array = getInterestedMappingsFor(item, type);
@@ -72,9 +90,9 @@ package robotlegs.bender.extensions.mediatorMap.impl
 				_factory.createMediators(item, type, interestedMappings);
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function flushCache():void
 		{

@@ -15,11 +15,13 @@ package robotlegs.bender.framework.api
 	public class LifecycleEvent extends Event
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Static Properties                                                   */
-		//============================================================================
+		/*============================================================================*/
 
-		public static const ERROR:String = "error";
+		public static const ERROR:String = "_error";
+
+		public static const STATE_CHANGE:String = "stateChange";
 
 		public static const PRE_INITIALIZE:String = "preInitialize";
 
@@ -45,30 +47,42 @@ package robotlegs.bender.framework.api
 
 		public static const POST_DESTROY:String = "postDestroy";
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Properties                                                          */
-		//============================================================================
+		/*============================================================================*/
 
-		public var error:Error;
+		private var _error:Error;
 
-		//============================================================================
-		/* Constructor                                                                */
-		//============================================================================
-
-		function LifecycleEvent(type:String)
+		public function get error():Error
 		{
-			super(type);
+			return _error;
 		}
 
-		//============================================================================
-		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
+		/* Constructor                                                                */
+		/*============================================================================*/
 
+		/**
+		 * Creates a Lifecycle Event
+		 * @param type The event type
+		 * @param error Optional error
+		 */
+		function LifecycleEvent(type:String, error:Error = null)
+		{
+			super(type);
+			_error = error;
+		}
+
+		/*============================================================================*/
+		/* Public Functions                                                           */
+		/*============================================================================*/
+
+		/**
+		 * @inheritDoc
+		 */
 		override public function clone():Event
 		{
-			const event:LifecycleEvent = new LifecycleEvent(type);
-			event.error = error;
-			return event;
+			return new LifecycleEvent(type, error);
 		}
 	}
 }

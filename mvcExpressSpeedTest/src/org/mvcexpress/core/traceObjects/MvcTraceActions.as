@@ -3,13 +3,16 @@ package org.mvcexpress.core.traceObjects {
 import org.mvcexpress.core.namespace.pureLegsCore;
 
 /**
- * COMMENT
+ * Trace action id's.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @private
  */
 public class MvcTraceActions {
 	
 	static public const MODULEMANAGER_CREATEMODULE:String = "ModuleManager.createModule";
 	static public const MODULEMANAGER_DISPOSEMODULE:String = "ModuleManager.disposeModule";
+	static public const MODULEMANAGER_REGISTERSCOPE:String = "ModuleManager.registerScope";
+	static public const MODULEMANAGER_UNREGISTERSCOPE:String = "ModuleManager.unregisterScope";
 	
 	static public const COMMANDMAP_MAP:String = "CommandMap.map";
 	static public const COMMANDMAP_UNMAP:String = "CommandMap.unmap";
@@ -31,7 +34,6 @@ public class MvcTraceActions {
 	static public const MESSENGER_ADDHANDLER:String = "Messenger.addHandler";
 	static public const MESSENGER_REMOVEHANDLER:String = "Messenger.removeHandler";
 	static public const MESSENGER_SEND:String = "Messenger.send";
-	static public const MESSENGER_SENDTOALL:String = "Messenger.sendToAll";
 	
 	//----------------------------------
 	//     For internal use
@@ -40,7 +42,6 @@ public class MvcTraceActions {
 	static pureLegsCore const PROXYMAP_INJECTSTUFF:String = "ProxyMap.injectStuff";
 	
 	static pureLegsCore const MESSENGER_SEND_HANDLER:String = "Messenger.send.HANDLER";
-	static pureLegsCore const MESSENGER_SENDTOALL_CLEAN:String = "Messenger.sendToAll.CLEAN";
 	
 	static pureLegsCore const MODULEBASE_SENDMESSAGE:String = "ModuleBase.sendMessage";
 	static pureLegsCore const MODULEBASE_SENDMESSAGE_CLEAN:String = "ModuleBase.sendMessage.CLEAN";
@@ -62,5 +63,6 @@ public class MvcTraceActions {
 	static pureLegsCore const PROXY_SENDMESSAGE_CLEAN:String = "Proxy.sendMessage.CLEAN";
 	static pureLegsCore const PROXY_SENDSCOPEMESSAGE:String = "Proxy.sendScopeMessage";
 	static pureLegsCore const PROXY_SENDSCOPEMESSAGE_CLEAN:String = "Proxy.sendScopeMessage.CLEAN";
+
 }
 }

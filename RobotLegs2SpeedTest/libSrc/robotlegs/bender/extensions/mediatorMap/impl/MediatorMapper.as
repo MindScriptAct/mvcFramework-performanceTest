@@ -16,12 +16,15 @@ package robotlegs.bender.extensions.mediatorMap.impl
 	import robotlegs.bender.extensions.mediatorMap.dsl.IMediatorUnmapper;
 	import robotlegs.bender.framework.api.ILogger;
 
+	/**
+	 * @private
+	 */
 	public class MediatorMapper implements IMediatorMapper, IMediatorUnmapper
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private const _mappings:Dictionary = new Dictionary();
 
@@ -31,10 +34,13 @@ package robotlegs.bender.extensions.mediatorMap.impl
 
 		private var _logger:ILogger;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @private
+		 */
 		public function MediatorMapper(typeFilter:ITypeFilter, handler:IMediatorViewHandler, logger:ILogger = null)
 		{
 			_typeFilter = typeFilter;
@@ -42,10 +48,13 @@ package robotlegs.bender.extensions.mediatorMap.impl
 			_logger = logger;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function toMediator(mediatorClass:Class):IMediatorMappingConfig
 		{
 			const mapping:IMediatorMapping = _mappings[mediatorClass];
@@ -54,12 +63,18 @@ package robotlegs.bender.extensions.mediatorMap.impl
 				: createMapping(mediatorClass);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function fromMediator(mediatorClass:Class):void
 		{
 			const mapping:IMediatorMapping = _mappings[mediatorClass];
 			mapping && deleteMapping(mapping);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function fromAll():void
 		{
 			for each (var mapping:IMediatorMapping in _mappings)
@@ -68,9 +83,9 @@ package robotlegs.bender.extensions.mediatorMap.impl
 			}
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function createMapping(mediatorClass:Class):MediatorMapping
 		{

@@ -22,29 +22,32 @@ package robotlegs.bender.extensions.contextView
 	public class ContextViewExtension implements IExtension
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private var _injector:Injector;
 
 		private var _logger:ILogger;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function extend(context:IContext):void
 		{
 			_injector = context.injector;
 			_logger = context.getLogger(this);
 			context.addConfigHandler(instanceOf(ContextView), handleContextView);
-			context.lifecycle.beforeInitializing(beforeInitializing);
+			context.beforeInitializing(beforeInitializing);
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function handleContextView(contextView:ContextView):void
 		{

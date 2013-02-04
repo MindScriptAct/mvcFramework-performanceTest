@@ -8,43 +8,48 @@
 package robotlegs.bender.extensions.modularity.impl
 {
 	import flash.display.DisplayObjectContainer;
-	import org.swiftsuspenders.Injector;
 	import robotlegs.bender.extensions.viewManager.api.IViewManager;
 	import robotlegs.bender.extensions.viewManager.impl.ViewManagerEvent;
 	import robotlegs.bender.framework.api.IContext;
 	import robotlegs.bender.framework.api.ILogger;
 
+	/**
+	 * @private
+	 */
 	public class ViewManagerBasedExistenceWatcher
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private var _logger:ILogger;
 
-		private var _injector:Injector;
-
 		private var _viewManager:IViewManager;
+
+		private var _parentContext:IContext;
 
 		private var _childContext:IContext;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @private
+		 */
 		public function ViewManagerBasedExistenceWatcher(context:IContext, viewManager:IViewManager)
 		{
 			_logger = context.getLogger(this);
-			_injector = context.injector;
 			_viewManager = viewManager;
-			context.lifecycle.whenDestroying(destroy);
+			_parentContext = context;
+			_parentContext.whenDestroying(destroy);
 			init();
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function init():void
 		{
@@ -69,7 +74,7 @@ package robotlegs.bender.extensions.modularity.impl
 			if (_childContext)
 			{
 				_logger.debug("Unlinking parent injector for child context {0}", [_childContext]);
-				_childContext.injector.parentInjector = null;
+				_parentContext.removeChild(_childContext);
 			}
 		}
 
@@ -87,10 +92,14 @@ package robotlegs.bender.extensions.modularity.impl
 
 		private function onContextAdd(event:ModularContextEvent):void
 		{
-			event.stopImmediatePropagation();
-			_childContext = event.context;
-			_logger.debug("Context existence event caught. Configuring child context {0}", [_childContext]);
-			_childContext.injector.parentInjector = _injector;
+			// We might catch out own existence event, so ignore that
+			if (event.context != _parentContext)
+			{
+				event.stopImmediatePropagation();
+				_childContext = event.context;
+				_logger.debug("Context existence event caught. Configuring child context {0}", [_childContext]);
+				_parentContext.addChild(_childContext);
+			}
 		}
 	}
 }

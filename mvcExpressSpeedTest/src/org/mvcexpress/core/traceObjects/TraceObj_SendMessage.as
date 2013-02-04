@@ -6,8 +6,9 @@ import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.mvc.Proxy;
 
 /**
- * COMMENT
+ * Class for mvcExpress tracing. (debug mode only)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @private
  */
 public class TraceObj_SendMessage extends TraceObj {
 	
@@ -18,6 +19,8 @@ public class TraceObj_SendMessage extends TraceObj {
 	
 	public function TraceObj_SendMessage(action:String, moduleName:String) {
 		super(action, moduleName);
+		//
+		canPrint = false;
 	}
 
 }

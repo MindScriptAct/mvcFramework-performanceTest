@@ -9,15 +9,21 @@ package robotlegs.bender.extensions.localEventMap.impl
 {
 	import flash.events.IEventDispatcher;
 
+	/**
+	 * @private
+	 */
 	public class EventMapConfig
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Properties                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private var _dispatcher:IEventDispatcher;
 
+		/**
+		 * @private
+		 */
 		public function get dispatcher():IEventDispatcher
 		{
 			return _dispatcher;
@@ -25,6 +31,9 @@ package robotlegs.bender.extensions.localEventMap.impl
 
 		private var _eventString:String;
 
+		/**
+		 * @private
+		 */
 		public function get eventString():String
 		{
 			return _eventString;
@@ -32,6 +41,9 @@ package robotlegs.bender.extensions.localEventMap.impl
 
 		private var _listener:Function;
 
+		/**
+		 * @private
+		 */
 		public function get listener():Function
 		{
 			return _listener;
@@ -39,6 +51,9 @@ package robotlegs.bender.extensions.localEventMap.impl
 
 		private var _eventClass:Class;
 
+		/**
+		 * @private
+		 */
 		public function get eventClass():Class
 		{
 			return _eventClass;
@@ -46,6 +61,9 @@ package robotlegs.bender.extensions.localEventMap.impl
 
 		private var _callback:Function;
 
+		/**
+		 * @private
+		 */
 		public function get callback():Function
 		{
 			return _callback;
@@ -53,15 +71,21 @@ package robotlegs.bender.extensions.localEventMap.impl
 
 		private var _useCapture:Boolean;
 
+		/**
+		 * @private
+		 */
 		public function get useCapture():Boolean
 		{
 			return _useCapture;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @private
+		 */
 		public function EventMapConfig(dispatcher:IEventDispatcher,
 			eventString:String,
 			listener:Function,

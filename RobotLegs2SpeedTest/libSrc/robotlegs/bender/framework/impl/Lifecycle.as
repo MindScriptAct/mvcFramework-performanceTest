@@ -7,6 +7,7 @@
 
 package robotlegs.bender.framework.impl
 {
+	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
 	import flash.utils.Dictionary;
@@ -14,15 +15,38 @@ package robotlegs.bender.framework.impl
 	import robotlegs.bender.framework.api.LifecycleEvent;
 	import robotlegs.bender.framework.api.LifecycleState;
 
-	public class Lifecycle extends EventDispatcher implements ILifecycle
+	[Event(name="destroy", type="robotlegs.bender.framework.api.LifecycleEvent")]
+	[Event(name="error", type="robotlegs.bender.framework.api.LifecycleEvent")]
+	[Event(name="initialize", type="robotlegs.bender.framework.api.LifecycleEvent")]
+	[Event(name="postDestroy", type="robotlegs.bender.framework.api.LifecycleEvent")]
+	[Event(name="postInitialize", type="robotlegs.bender.framework.api.LifecycleEvent")]
+	[Event(name="postResume", type="robotlegs.bender.framework.api.LifecycleEvent")]
+	[Event(name="postSuspend", type="robotlegs.bender.framework.api.LifecycleEvent")]
+	[Event(name="preDestroy", type="robotlegs.bender.framework.api.LifecycleEvent")]
+	[Event(name="preInitialize", type="robotlegs.bender.framework.api.LifecycleEvent")]
+	[Event(name="preResume", type="robotlegs.bender.framework.api.LifecycleEvent")]
+	[Event(name="preSuspend", type="robotlegs.bender.framework.api.LifecycleEvent")]
+	[Event(name="resume", type="robotlegs.bender.framework.api.LifecycleEvent")]
+	[Event(name="stateChange", type="robotlegs.bender.framework.api.LifecycleEvent")]
+	[Event(name="suspend", type="robotlegs.bender.framework.api.LifecycleEvent")]
+	/**
+	 * Default object lifecycle
+	 *
+	 * @private
+	 */
+	public class Lifecycle implements ILifecycle
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Properties                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private var _state:String = LifecycleState.UNINITIALIZED;
 
+		[Bindable("stateChange")]
+		/**
+		 * @inheritDoc
+		 */
 		public function get state():String
 		{
 			return _state;
@@ -30,35 +54,58 @@ package robotlegs.bender.framework.impl
 
 		private var _target:Object;
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get target():Object
 		{
 			return _target;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
+		public function get uninitialized():Boolean
+		{
+			return _state == LifecycleState.UNINITIALIZED;
+		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public function get initialized():Boolean
 		{
 			return _state != LifecycleState.UNINITIALIZED
 				&& _state != LifecycleState.INITIALIZING;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get active():Boolean
 		{
 			return _state == LifecycleState.ACTIVE;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get suspended():Boolean
 		{
 			return _state == LifecycleState.SUSPENDED;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get destroyed():Boolean
 		{
 			return _state == LifecycleState.DESTROYED;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private const _reversedEventTypes:Dictionary = new Dictionary();
 
@@ -72,139 +119,231 @@ package robotlegs.bender.framework.impl
 
 		private var _destroy:LifecycleTransition;
 
-		//============================================================================
-		/* Constructor                                                                */
-		//============================================================================
+		private var _dispatcher:IEventDispatcher;
 
+		/*============================================================================*/
+		/* Constructor                                                                */
+		/*============================================================================*/
+
+		/**
+		 * Creates a lifecycle for a given target object
+		 * @param target The target object
+		 */
 		public function Lifecycle(target:Object)
 		{
 			_target = target;
+			_dispatcher = target as IEventDispatcher || new EventDispatcher(this);
 			configureTransitions();
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function initialize(callback:Function = null):void
 		{
 			_initialize.enter(callback);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function suspend(callback:Function = null):void
 		{
 			_suspend.enter(callback);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function resume(callback:Function = null):void
 		{
 			_resume.enter(callback);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function destroy(callback:Function = null):void
 		{
 			_destroy.enter(callback);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function beforeInitializing(handler:Function):ILifecycle
 		{
 			_initialize.addBeforeHandler(handler);
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function beforeSuspending(handler:Function):ILifecycle
 		{
 			_suspend.addBeforeHandler(handler);
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function beforeResuming(handler:Function):ILifecycle
 		{
 			_resume.addBeforeHandler(handler);
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function beforeDestroying(handler:Function):ILifecycle
 		{
 			_destroy.addBeforeHandler(handler);
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function whenInitializing(handler:Function):ILifecycle
 		{
 			addEventListener(LifecycleEvent.INITIALIZE, createLifecycleListener(handler, true));
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function whenSuspending(handler:Function):ILifecycle
 		{
 			addEventListener(LifecycleEvent.SUSPEND, createLifecycleListener(handler));
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function whenResuming(handler:Function):ILifecycle
 		{
 			addEventListener(LifecycleEvent.RESUME, createLifecycleListener(handler));
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function whenDestroying(handler:Function):ILifecycle
 		{
 			addEventListener(LifecycleEvent.DESTROY, createLifecycleListener(handler, true));
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function afterInitializing(handler:Function):ILifecycle
 		{
 			addEventListener(LifecycleEvent.POST_INITIALIZE, createLifecycleListener(handler, true));
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function afterSuspending(handler:Function):ILifecycle
 		{
 			addEventListener(LifecycleEvent.POST_SUSPEND, createLifecycleListener(handler));
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function afterResuming(handler:Function):ILifecycle
 		{
 			addEventListener(LifecycleEvent.POST_RESUME, createLifecycleListener(handler));
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function afterDestroying(handler:Function):ILifecycle
 		{
 			addEventListener(LifecycleEvent.POST_DESTROY, createLifecycleListener(handler, true));
 			return this;
 		}
 
-		override public function addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void
+		/**
+		 * @inheritDoc
+		 */
+		public function addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void
 		{
 			priority = flipPriority(type, priority);
-			super.addEventListener(type, listener, useCapture, priority, useWeakReference);
+			_dispatcher.addEventListener(type, listener, useCapture, priority, useWeakReference);
 		}
 
-		//============================================================================
+		/**
+		 * @inheritDoc
+		 */
+		public function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void
+		{
+			_dispatcher.removeEventListener(type, listener, useCapture);
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function dispatchEvent(event:Event):Boolean
+		{
+			return _dispatcher.dispatchEvent(event);
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function hasEventListener(type:String):Boolean
+		{
+			return _dispatcher.hasEventListener(type);
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function willTrigger(type:String):Boolean
+		{
+			return _dispatcher.willTrigger(type);
+		}
+
+		/*============================================================================*/
 		/* Internal Functions                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		internal function setCurrentState(state:String):void
 		{
 			if (_state == state)
 				return;
 			_state = state;
-			// todo: dispatch LifecycleEvent.STATE_CHANGE
+			dispatchEvent(new LifecycleEvent(LifecycleEvent.STATE_CHANGE));
 		}
 
 		internal function addReversedEventTypes(... types):void
 		{
 			for each (var type:String in types)
+			{
 				_reversedEventTypes[type] = true;
+			}
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function configureTransitions():void
 		{

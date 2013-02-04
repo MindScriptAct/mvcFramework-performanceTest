@@ -18,25 +18,32 @@ package robotlegs.bender.extensions.eventDispatcher
 	public class EventDispatcherExtension implements IExtension
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private var _eventDispatcher:IEventDispatcher;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * Creates an Event Dispatcher Extension
+		 * @param eventDispatcher Optional IEventDispatcher instance to share
+		 */
 		public function EventDispatcherExtension(eventDispatcher:IEventDispatcher = null)
 		{
 			_eventDispatcher = eventDispatcher || new EventDispatcher();
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function extend(context:IContext):void
 		{
 			context.injector.map(IEventDispatcher).toValue(_eventDispatcher);

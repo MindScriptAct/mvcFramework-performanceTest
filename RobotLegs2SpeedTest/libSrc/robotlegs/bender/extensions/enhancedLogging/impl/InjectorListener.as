@@ -12,12 +12,15 @@ package robotlegs.bender.extensions.enhancedLogging.impl
 	import org.swiftsuspenders.mapping.MappingEvent;
 	import robotlegs.bender.framework.api.ILogger;
 
+	/**
+	 * @private
+	 */
 	public class InjectorListener
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Static Properties                                                  */
-		//============================================================================
+		/*============================================================================*/
 
 		private static const INJECTION_TYPES:Array = [
 			InjectionEvent.POST_CONSTRUCT,
@@ -32,18 +35,23 @@ package robotlegs.bender.extensions.enhancedLogging.impl
 			MappingEvent.PRE_MAPPING_CHANGE,
 			MappingEvent.PRE_MAPPING_CREATE];
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private var _injector:Injector;
 
 		private var _logger:ILogger;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * Creates an Injector Listener
+		 * @param injector Injector
+		 * @param logger Logger
+		 */
 		public function InjectorListener(injector:Injector, logger:ILogger)
 		{
 			_injector = injector;
@@ -51,10 +59,13 @@ package robotlegs.bender.extensions.enhancedLogging.impl
 			addListeners();
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * Destroys this listener
+		 */
 		public function destroy():void
 		{
 			var type:String;
@@ -68,9 +79,9 @@ package robotlegs.bender.extensions.enhancedLogging.impl
 			}
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function addListeners():void
 		{

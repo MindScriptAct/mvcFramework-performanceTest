@@ -9,39 +9,53 @@ package robotlegs.bender.extensions.matching
 {
 	import flash.utils.getQualifiedClassName;
 
-	// TODO: review (location, design)
+	/**
+	 * A filter that describes a package matcher
+	 */
 	public class PackageFilter implements ITypeFilter
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Properties                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		protected var _descriptor:String;
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get descriptor():String
 		{
 			return _descriptor ||= createDescriptor();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get allOfTypes():Vector.<Class>
 		{
 			return emptyVector;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get anyOfTypes():Vector.<Class>
 		{
 			return emptyVector;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get noneOfTypes():Vector.<Class>
 		{
 			return emptyVector;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Protected Properties                                                       */
-		//============================================================================
+		/*============================================================================*/
 
 		protected const emptyVector:Vector.<Class> = new Vector.<Class>();
 
@@ -51,11 +65,20 @@ package robotlegs.bender.extensions.matching
 
 		protected var _noneOfPackages:Vector.<String>;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
-		public function PackageFilter(requiredPackage:String, anyOfPackages:Vector.<String>, noneOfPackages:Vector.<String>)
+		/**
+		 * Creates a new Package Filter
+		 * @param requiredPackage
+		 * @param anyOfPackages
+		 * @param noneOfPackages
+		 */
+		public function PackageFilter(
+				requiredPackage:String,
+				anyOfPackages:Vector.<String>,
+				noneOfPackages:Vector.<String>)
 		{
 			_requirePackage = requiredPackage;
 			_anyOfPackages = anyOfPackages;
@@ -64,10 +87,13 @@ package robotlegs.bender.extensions.matching
 			_noneOfPackages.sort(stringSort);
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function matches(item:*):Boolean
 		{
 			const fqcn:String = getQualifiedClassName(item);
@@ -99,9 +125,9 @@ package robotlegs.bender.extensions.matching
 			return false;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Protected Functions                                                        */
-		//============================================================================
+		/*============================================================================*/
 
 		protected function stringSort(item1:String, item2:String):int
 		{
@@ -112,9 +138,9 @@ package robotlegs.bender.extensions.matching
 			return -1;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function createDescriptor():String
 		{

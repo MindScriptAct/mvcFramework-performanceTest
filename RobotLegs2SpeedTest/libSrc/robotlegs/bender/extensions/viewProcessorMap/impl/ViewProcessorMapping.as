@@ -11,15 +11,21 @@ package robotlegs.bender.extensions.viewProcessorMap.impl
 	import robotlegs.bender.extensions.viewProcessorMap.dsl.IViewProcessorMapping;
 	import robotlegs.bender.extensions.viewProcessorMap.dsl.IViewProcessorMappingConfig;
 
+	/**
+	 * @private
+	 */
 	public class ViewProcessorMapping implements IViewProcessorMapping, IViewProcessorMappingConfig
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Properties                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private var _matcher:ITypeFilter;
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get matcher():ITypeFilter
 		{
 			return _matcher;
@@ -27,11 +33,17 @@ package robotlegs.bender.extensions.viewProcessorMap.impl
 
 		private var _processor:Object;
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get processor():Object
 		{
 			return _processor;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function set processor(value:Object):void
 		{
 			_processor = value;
@@ -39,6 +51,9 @@ package robotlegs.bender.extensions.viewProcessorMap.impl
 
 		private var _processorClass:Class;
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get processorClass():Class
 		{
 			return _processorClass;
@@ -46,6 +61,9 @@ package robotlegs.bender.extensions.viewProcessorMap.impl
 
 		private var _guards:Array = [];
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get guards():Array
 		{
 			return _guards;
@@ -53,15 +71,21 @@ package robotlegs.bender.extensions.viewProcessorMap.impl
 
 		private var _hooks:Array = [];
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get hooks():Array
 		{
 			return _hooks;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @private
+		 */
 		public function ViewProcessorMapping(matcher:ITypeFilter, processor:Object)
 		{
 			_matcher = matcher;
@@ -69,16 +93,22 @@ package robotlegs.bender.extensions.viewProcessorMap.impl
 			setProcessor(processor);
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function withGuards(... guards):IViewProcessorMappingConfig
 		{
 			_guards = _guards.concat.apply(null, guards);
 			return this;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function withHooks(... hooks):IViewProcessorMappingConfig
 		{
 			_hooks = _hooks.concat.apply(null, hooks);
@@ -90,9 +120,9 @@ package robotlegs.bender.extensions.viewProcessorMap.impl
 			return 'Processor ' + _processor;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function setProcessor(processor:Object):void
 		{

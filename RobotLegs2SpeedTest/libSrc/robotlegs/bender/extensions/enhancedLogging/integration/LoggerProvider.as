@@ -12,33 +12,45 @@ package robotlegs.bender.extensions.enhancedLogging.integration
 	import org.swiftsuspenders.dependencyproviders.DependencyProvider;
 	import robotlegs.bender.framework.api.IContext;
 
+	/**
+	 * @private
+	 */
 	public class LoggerProvider implements DependencyProvider
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private var _context:IContext;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @private
+		 */
 		public function LoggerProvider(context:IContext)
 		{
 			_context = context;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function apply(targetType:Class, activeInjector:Injector, injectParameters:Dictionary):Object
 		{
 			return _context.getLogger(targetType);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function destroy():void
 		{
 		}

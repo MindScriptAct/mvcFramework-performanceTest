@@ -16,12 +16,15 @@ package robotlegs.bender.extensions.eventCommandMap.impl
 	import robotlegs.bender.extensions.commandCenter.dsl.ICommandUnmapper;
 	import robotlegs.bender.extensions.eventCommandMap.api.IEventCommandMap;
 
+	/**
+	 * @private
+	 */
 	public class EventCommandMap implements IEventCommandMap
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private const _triggers:Dictionary = new Dictionary();
 
@@ -31,10 +34,13 @@ package robotlegs.bender.extensions.eventCommandMap.impl
 
 		private var _commandCenter:ICommandCenter;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @private
+		 */
 		public function EventCommandMap(
 			injector:Injector,
 			dispatcher:IEventDispatcher,
@@ -45,10 +51,13 @@ package robotlegs.bender.extensions.eventCommandMap.impl
 			_commandCenter = commandCenter;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function map(type:String, eventClass:Class = null):ICommandMapper
 		{
 			const trigger:ICommandTrigger =
@@ -57,14 +66,17 @@ package robotlegs.bender.extensions.eventCommandMap.impl
 			return _commandCenter.map(trigger);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function unmap(type:String, eventClass:Class = null):ICommandUnmapper
 		{
 			return _commandCenter.unmap(getTrigger(type, eventClass));
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function createTrigger(type:String, eventClass:Class = null):ICommandTrigger
 		{

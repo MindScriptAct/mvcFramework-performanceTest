@@ -20,9 +20,9 @@ package robotlegs.bender.bundles.mvcs
 	public class Mediator implements IMediator
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Properties                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		[Inject]
 		public var eventMap:IEventMap;
@@ -32,27 +32,36 @@ package robotlegs.bender.bundles.mvcs
 
 		private var _viewComponent:Object;
 
+		/**
+		 * @private
+		 */
 		public function set viewComponent(view:Object):void
 		{
 			_viewComponent = view;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function initialize():void
 		{
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function destroy():void
 		{
 			eventMap.unmapListeners();
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Protected Functions                                                        */
-		//============================================================================
+		/*============================================================================*/
 
 		protected function addViewListener(eventString:String, listener:Function, eventClass:Class = null):void
 		{

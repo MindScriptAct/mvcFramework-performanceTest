@@ -8,17 +8,26 @@
 package robotlegs.bender.extensions.viewProcessorMap.impl
 {
 
+	/**
+	 * @private
+	 */
 	public class NullProcessor
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @private
+		 */
 		public function process(view:Object, type:Class, injector:*):void
 		{
 		}
 
+		/**
+		 * @private
+		 */
 		public function unprocess(view:Object, type:Class, injector:*):void
 		{
 		}

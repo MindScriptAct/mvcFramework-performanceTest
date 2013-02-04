@@ -16,7 +16,7 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'11/24/2012'</value>
+      <value>'2/4/2013'</value>
     </define>
     <define append="true">
       <name>CONFIG::air</name>
@@ -34,12 +34,12 @@
     <omit-trace-statements>true</omit-trace-statements>
     <verbose-stacktraces>false</verbose-stacktraces>
     <source-path append="true">
-      <path-element>C:\Users\Deril\Dropbox\!workspace\as3-mvcFramework-performanceTest\PureMVCSpeedTest\src</path-element>
+      <path-element>C:\Users\rbanevicius\Dropbox\!workspace\as3-mvcFramework-performanceTest\PureMVCSpeedTest\src</path-element>
       <path-element>C:\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
   </compiler>
   <file-specs>
-    <path-element>C:\Users\Deril\Dropbox\!workspace\as3-mvcFramework-performanceTest\PureMVCSpeedTest\src\com\mindScriptAct\pureTest\PureTest.as</path-element>
+    <path-element>C:\Users\rbanevicius\Dropbox\!workspace\as3-mvcFramework-performanceTest\PureMVCSpeedTest\src\com\mindScriptAct\pureTest\PureTest.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
   <default-frame-rate>50</default-frame-rate>

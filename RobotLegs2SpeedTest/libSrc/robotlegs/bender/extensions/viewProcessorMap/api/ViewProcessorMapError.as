@@ -8,13 +8,20 @@
 package robotlegs.bender.extensions.viewProcessorMap.api
 {
 
+	/**
+	 * View Processor Map Error
+	 */
 	public class ViewProcessorMapError extends Error
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * Creates a View Processor Map Error
+		 * @param message The error message
+		 */
 		public function ViewProcessorMapError(message:String)
 		{
 			super(message);

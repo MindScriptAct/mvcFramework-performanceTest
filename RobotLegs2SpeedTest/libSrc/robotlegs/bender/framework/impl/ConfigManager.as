@@ -24,22 +24,24 @@ package robotlegs.bender.framework.impl
 	 * allows the installation of custom configuration handlers.
 	 *
 	 * <p>It is pre-configured to handle plain objects and classes</p>
+	 *
+	 * @private
 	 */
 	public class ConfigManager
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Static Properties                                                  */
-		//============================================================================
+		/*============================================================================*/
 
 		private static const plainObjectMatcher:Matcher = allOf(
 			instanceOf(Object),
 			not(instanceOf(Class)),
 			not(instanceOf(DisplayObject)));
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private const _objectProcessor:ObjectProcessor = new ObjectProcessor();
 
@@ -53,10 +55,13 @@ package robotlegs.bender.framework.impl
 
 		private var _initialized:Boolean;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @private
+		 */
 		public function ConfigManager(context:IContext)
 		{
 			_injector = context.injector;
@@ -66,12 +71,12 @@ package robotlegs.bender.framework.impl
 			// The ConfigManager should process the config queue
 			// at the end of the INITIALIZE phase,
 			// but *before* POST_INITIALIZE, so use low event priority
-			context.lifecycle.addEventListener(LifecycleEvent.INITIALIZE, initialize, false, -100);
+			context.addEventListener(LifecycleEvent.INITIALIZE, initialize, false, -100);
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
 		/**
 		 * Process a given configuration object by running it through registered handlers.
@@ -97,9 +102,9 @@ package robotlegs.bender.framework.impl
 			_objectProcessor.addObjectHandler(matcher, handler);
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function initialize(event:LifecycleEvent):void
 		{

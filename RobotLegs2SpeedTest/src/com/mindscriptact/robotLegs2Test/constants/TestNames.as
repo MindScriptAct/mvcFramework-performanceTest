@@ -40,10 +40,10 @@ public class TestNames {
 	static public const MEDIATOR_REMOVE_10000:String = "Mediator Remove*10000";
 	
 	static public const MEDIATOR_COMMUNICATE_1:String = "Mediator Communicate 1";
+	static public const MEDIATOR_COMMUNICATE_10:String = "Mediator Communicate 10";
+	static public const MEDIATOR_COMMUNICATE_20:String = "Mediator Communicate 20";
+	static public const MEDIATOR_COMMUNICATE_50:String = "Mediator Communicate 50";
 	static public const MEDIATOR_COMMUNICATE_100:String = "Mediator Communicate 100";
-	static public const MEDIATOR_COMMUNICATE_200:String = "Mediator Communicate 200";
-	static public const MEDIATOR_COMMUNICATE_500:String = "Mediator Communicate 500";
-	static public const MEDIATOR_COMMUNICATE_1000:String = "Mediator Communicate 1000";
 	
 	
 

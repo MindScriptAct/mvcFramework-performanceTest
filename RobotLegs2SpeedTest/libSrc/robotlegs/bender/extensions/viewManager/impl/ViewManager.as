@@ -16,41 +16,53 @@ package robotlegs.bender.extensions.viewManager.impl
 	[Event(name="containerRemove", type="robotlegs.bender.extensions.viewManager.impl.ViewManagerEvent")]
 	[Event(name="handlerAdd", type="robotlegs.bender.extensions.viewManager.impl.ViewManagerEvent")]
 	[Event(name="handlerRemove", type="robotlegs.bender.extensions.viewManager.impl.ViewManagerEvent")]
+	/**
+	 * @private
+	 */
 	public class ViewManager extends EventDispatcher implements IViewManager
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Properties                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private const _containers:Vector.<DisplayObjectContainer> = new Vector.<DisplayObjectContainer>;
 
+		/**
+		 * @inheritDoc
+		 */
 		public function get containers():Vector.<DisplayObjectContainer>
 		{
 			return _containers;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private const _handlers:Vector.<IViewHandler> = new Vector.<IViewHandler>;
 
 		private var _registry:ContainerRegistry;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @private
+		 */
 		public function ViewManager(containerRegistry:ContainerRegistry)
 		{
 			_registry = containerRegistry;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function addContainer(container:DisplayObjectContainer):void
 		{
 			if (!validContainer(container))
@@ -65,6 +77,9 @@ package robotlegs.bender.extensions.viewManager.impl
 			dispatchEvent(new ViewManagerEvent(ViewManagerEvent.CONTAINER_ADD, container));
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeContainer(container:DisplayObjectContainer):void
 		{
 			const index:int = _containers.indexOf(container);
@@ -81,6 +96,9 @@ package robotlegs.bender.extensions.viewManager.impl
 			dispatchEvent(new ViewManagerEvent(ViewManagerEvent.CONTAINER_REMOVE, container));
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function addViewHandler(handler:IViewHandler):void
 		{
 			if (_handlers.indexOf(handler) != -1)
@@ -95,6 +113,9 @@ package robotlegs.bender.extensions.viewManager.impl
 			dispatchEvent(new ViewManagerEvent(ViewManagerEvent.HANDLER_ADD, null, handler));
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeViewHandler(handler:IViewHandler):void
 		{
 			const index:int = _handlers.indexOf(handler);
@@ -110,6 +131,9 @@ package robotlegs.bender.extensions.viewManager.impl
 			dispatchEvent(new ViewManagerEvent(ViewManagerEvent.HANDLER_REMOVE, null, handler));
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeAllHandlers():void
 		{
 			for each (var container:DisplayObjectContainer in _containers)
@@ -122,9 +146,9 @@ package robotlegs.bender.extensions.viewManager.impl
 			}
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function validContainer(container:DisplayObjectContainer):Boolean
 		{

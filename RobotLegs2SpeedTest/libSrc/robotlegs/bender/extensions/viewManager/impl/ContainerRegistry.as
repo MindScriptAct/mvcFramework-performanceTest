@@ -16,15 +16,21 @@ package robotlegs.bender.extensions.viewManager.impl
 	[Event(name="containerRemove", type="robotlegs.bender.extensions.viewManager.impl.ContainerRegistryEvent")]
 	[Event(name="rootContainerAdd", type="robotlegs.bender.extensions.viewManager.impl.ContainerRegistryEvent")]
 	[Event(name="rootContainerRemove", type="robotlegs.bender.extensions.viewManager.impl.ContainerRegistryEvent")]
+	/**
+	 * @private
+	 */
 	public class ContainerRegistry extends EventDispatcher
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Properties                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private const _bindings:Vector.<ContainerBinding> = new Vector.<ContainerBinding>;
 
+		/**
+		 * @private
+		 */
 		public function get bindings():Vector.<ContainerBinding>
 		{
 			return _bindings;
@@ -32,26 +38,35 @@ package robotlegs.bender.extensions.viewManager.impl
 
 		private const _rootBindings:Vector.<ContainerBinding> = new Vector.<ContainerBinding>;
 
+		/**
+		 * @private
+		 */
 		public function get rootBindings():Vector.<ContainerBinding>
 		{
 			return _rootBindings;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private const _bindingByContainer:Dictionary = new Dictionary();
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @private
+		 */
 		public function addContainer(container:DisplayObjectContainer):ContainerBinding
 		{
 			return _bindingByContainer[container] ||= createBinding(container);
 		}
 
+		/**
+		 * @private
+		 */
 		public function removeContainer(container:DisplayObjectContainer):ContainerBinding
 		{
 			const binding:ContainerBinding = _bindingByContainer[container];
@@ -59,6 +74,11 @@ package robotlegs.bender.extensions.viewManager.impl
 			return binding;
 		}
 
+		/**
+		 * Finds the closest parent binding for a given display object
+		 *
+		 * @private
+		 */
 		public function findParentBinding(target:DisplayObject):ContainerBinding
 		{
 			var parent:DisplayObjectContainer = target.parent;
@@ -74,14 +94,17 @@ package robotlegs.bender.extensions.viewManager.impl
 			return null;
 		}
 
+		/**
+		 * @private
+		 */
 		public function getBinding(container:DisplayObjectContainer):ContainerBinding
 		{
 			return _bindingByContainer[container];
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function createBinding(container:DisplayObjectContainer):ContainerBinding
 		{

@@ -17,12 +17,15 @@ package robotlegs.bender.extensions.viewProcessorMap
 	import robotlegs.bender.framework.api.IContext;
 	import robotlegs.bender.framework.api.IExtension;
 
+	/**
+	 * This extension install a View Processor Map into a context
+	 */
 	public class ViewProcessorMapExtension implements IExtension
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private var _injector:Injector;
 
@@ -32,23 +35,26 @@ package robotlegs.bender.extensions.viewProcessorMap
 
 		private var _viewProcessorFactory:IViewProcessorFactory;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function extend(context:IContext):void
 		{
 			_injector = context.injector;
 			_injector.map(IViewProcessorFactory).toValue(new ViewProcessorFactory(_injector.createChildInjector()));
 			_injector.map(IViewProcessorMap).toSingleton(ViewProcessorMap);
-			context.lifecycle.beforeInitializing(beforeInitializing);
-			context.lifecycle.beforeDestroying(beforeDestroying);
-			context.lifecycle.whenDestroying(whenDestroying);
+			context.beforeInitializing(beforeInitializing);
+			context.beforeDestroying(beforeDestroying);
+			context.whenDestroying(whenDestroying);
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function beforeInitializing():void
 		{

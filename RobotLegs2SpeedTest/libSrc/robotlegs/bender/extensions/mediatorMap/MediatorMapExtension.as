@@ -18,12 +18,15 @@ package robotlegs.bender.extensions.mediatorMap
 	import robotlegs.bender.framework.api.IContext;
 	import robotlegs.bender.framework.api.IExtension;
 
+	/**
+	 * This extension installs a shared IMediatorMap into the context
+	 */
 	public class MediatorMapExtension implements IExtension
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private var _injector:Injector;
 
@@ -33,23 +36,26 @@ package robotlegs.bender.extensions.mediatorMap
 
 		private var _mediatorManager:DefaultMediatorManager;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function extend(context:IContext):void
 		{
 			_injector = context.injector;
 			_injector.map(IMediatorFactory).toSingleton(MediatorFactory);
 			_injector.map(IMediatorMap).toSingleton(MediatorMap);
-			context.lifecycle.beforeInitializing(beforeInitializing);
-			context.lifecycle.beforeDestroying(beforeDestroying);
-			context.lifecycle.whenDestroying(whenDestroying);
+			context.beforeInitializing(beforeInitializing);
+			context.beforeDestroying(beforeDestroying);
+			context.whenDestroying(whenDestroying);
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function beforeInitializing():void
 		{

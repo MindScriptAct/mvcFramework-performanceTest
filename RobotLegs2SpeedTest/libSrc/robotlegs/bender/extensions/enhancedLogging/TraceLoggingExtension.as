@@ -11,13 +11,19 @@ package robotlegs.bender.extensions.enhancedLogging
 	import robotlegs.bender.framework.api.IContext;
 	import robotlegs.bender.framework.api.IExtension;
 
+	/**
+	 * Adds a TraceLogTarget to the context
+	 */
 	public class TraceLoggingExtension implements IExtension
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function extend(context:IContext):void
 		{
 			context.addLogTarget(new TraceLogTarget(context));

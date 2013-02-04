@@ -3,14 +3,14 @@ package org.mvcexpress.core.messenger {
 import flash.utils.Dictionary;
 import org.mvcexpress.core.CommandMap;
 import org.mvcexpress.core.namespace.pureLegsCore;
-import org.mvcexpress.core.traceObjects.MvcTraceActions;
-import org.mvcexpress.core.traceObjects.TraceMessenger_addHandler;
-import org.mvcexpress.core.traceObjects.TraceMessenger_removeHandler;
-import org.mvcexpress.core.traceObjects.TraceMessenger_send;
-import org.mvcexpress.core.traceObjects.TraceMessenger_send_handler;
+import org.mvcexpress.core.traceObjects.messenger.TraceMessenger_addHandler;
+import org.mvcexpress.core.traceObjects.messenger.TraceMessenger_removeHandler;
+import org.mvcexpress.core.traceObjects.messenger.TraceMessenger_send;
+import org.mvcexpress.core.traceObjects.messenger.TraceMessenger_send_handler;
 import org.mvcexpress.MvcExpress;
 
 /**
+ * FOR INTERNAL USE ONLY.
  * Handles framework communications.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
@@ -20,7 +20,7 @@ public class Messenger {
 	pureLegsCore var moduleName:String;
 	
 	// defines if messenger can be instantiated.
-	static pureLegsCore var allowInstantiation:Boolean = false;
+	static pureLegsCore var allowInstantiation:Boolean; // = false;
 	
 	// keeps ALL HandlerVO's in vectors by message type that they have to respond to.
 	private var messageRegistry:Dictionary = new Dictionary(); /* of Vector.<HandlerVO> by String */
@@ -31,12 +31,12 @@ public class Messenger {
 	/**
 	 * CONSTRUCTOR - internal class. Not available for use.
 	 */
-	public function Messenger(moduleName:String) {
+	public function Messenger($moduleName:String) {
 		use namespace pureLegsCore;
 		if (!allowInstantiation) {
 			throw Error("Messenger is a framework class, you can't instantiate it.");
 		}
-		this.moduleName = moduleName;
+		moduleName = $moduleName;
 	}
 	
 	/**
@@ -50,12 +50,14 @@ public class Messenger {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMessenger_addHandler(MvcTraceActions.MESSENGER_ADDHANDLER, moduleName, type, handler, handlerClassName));
+			MvcExpress.debug(new TraceMessenger_addHandler(moduleName, type, handler, handlerClassName));
 		}
 		
 		// if this message type used for the first time - create data placeholders.
-		if (!messageRegistry[type]) {
-			messageRegistry[type] = new Vector.<HandlerVO>();
+		var messageList:Vector.<HandlerVO> = messageRegistry[type];
+		if (!messageList) {
+			messageList = new Vector.<HandlerVO>()
+			messageRegistry[type] = messageList;
 			handlerRegistry[type] = new Dictionary();
 		}
 		
@@ -73,7 +75,7 @@ public class Messenger {
 				msgData.handlerClassName = handlerClassName;
 			}
 			msgData.handler = handler;
-			messageRegistry[type].push(msgData);
+			messageList[messageList.length] = msgData;
 			handlerRegistry[type][handler] = msgData;
 		}
 		return msgData;
@@ -90,7 +92,7 @@ public class Messenger {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMessenger_removeHandler(MvcTraceActions.MESSENGER_REMOVEHANDLER, moduleName, type, handler));
+			MvcExpress.debug(new TraceMessenger_removeHandler(moduleName, type, handler));
 		}
 		if (handlerRegistry[type]) {
 			if (handlerRegistry[type][handler]) {
@@ -100,7 +102,6 @@ public class Messenger {
 		}
 	}
 	
-	// TODO : consider adding error checking that will FIND this function if it fails.. (to say what mediator failed to handle the message...) debug mode only... (most likely will be slow.. but very helpful for debug mode.)
 	/**
 	 * Runs all handler functions associated with message type, and send params object as single parameter.
 	 * @param	type				message type to find needed handlers
@@ -110,15 +111,14 @@ public class Messenger {
 		use namespace pureLegsCore;
 		// debug this action
 		CONFIG::debug {
-			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMessenger_send(MvcTraceActions.MESSENGER_SEND, moduleName, type, params));
+			MvcExpress.debug(new TraceMessenger_send(moduleName, type, params));
 		}
 		var messageList:Vector.<HandlerVO> = messageRegistry[type];
 		var handlerVo:HandlerVO;
-		var delCount:int = 0;
+		var delCount:int; // = 0;
 		if (messageList) {
-			var tempListLength:int = messageList.length;
-			for (var i:int = 0; i < tempListLength; i++) {
+			var mesageCount:int = messageList.length;
+			for (var i:int; i < mesageCount; i++) {
 				handlerVo = messageList[i];
 				// check if message is not marked to be removed. (disabled)
 				if (handlerVo.handler == null) {
@@ -141,8 +141,7 @@ public class Messenger {
 							/* Failed handler class: */
 							handlerVo.handlerClassName;
 							//
-							use namespace pureLegsCore;
-							MvcExpress.debug(new TraceMessenger_send_handler(MvcTraceActions.MESSENGER_SEND_HANDLER, moduleName, type, params, handlerVo.handler, handlerVo.handlerClassName));
+							MvcExpress.debug(new TraceMessenger_send_handler(moduleName, type, params, handlerVo.handler, handlerVo.handlerClassName));
 						}
 						handlerVo.handler(params);
 					}
@@ -150,7 +149,7 @@ public class Messenger {
 			}
 			// remove all removed handlers.
 			if (delCount) {
-				messageList.splice(tempListLength - delCount, delCount);
+				messageList.splice(mesageCount - delCount, delCount);
 			}
 		}
 	}
@@ -187,12 +186,14 @@ public class Messenger {
 		for (var key:String in messageRegistry) {
 			var msgList:Vector.<HandlerVO> = messageRegistry[key];
 			var messageHandlers:String = "";
-			for (var i:int = 0; i < msgList.length; i++) {
+			var msgCount:int = msgList.length;
+			for (var i:int = 0; i < msgCount; i++) {
 				var handlerVo:HandlerVO = msgList[i];
 				if (handlerVo.isExecutable) {
 					messageHandlers += "[EXECUTES:" + commandMap.listMessageCommands(key) + "], ";
-				} else {
-					messageHandlers += "[" + handlerVo.handlerClassName + "], ";
+					CONFIG::debug {
+						messageHandlers += "[" + handlerVo.handlerClassName + "], ";
+					}
 				}
 			}
 			

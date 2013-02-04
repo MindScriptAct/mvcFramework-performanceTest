@@ -12,46 +12,58 @@ package robotlegs.bender.extensions.viewManager
 	import robotlegs.bender.extensions.viewManager.impl.ManualStageObserver;
 	import robotlegs.bender.framework.api.IContext;
 	import robotlegs.bender.framework.api.IExtension;
+	import robotlegs.bender.framework.api.ILogger;
 
+	/**
+	 * This extension install a manual Stage Observer
+	 */
 	public class ManualStageObserverExtension implements IExtension
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Static Properties                                                  */
-		//============================================================================
+		/*============================================================================*/
 
 		// Really? Yes, there can be only one.
 		private static var _manualStageObserver:ManualStageObserver;
 
 		private static var _installCount:uint;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private var _injector:Injector;
 
-		//============================================================================
-		/* Public Functions                                                           */
-		//============================================================================
+		private var _logger:ILogger;
 
+		/*============================================================================*/
+		/* Public Functions                                                           */
+		/*============================================================================*/
+
+		/**
+		 * @inheritDoc
+		 */
 		public function extend(context:IContext):void
 		{
 			_installCount++;
 			_injector = context.injector;
-			context.lifecycle.whenInitializing(whenInitializing);
-			context.lifecycle.whenDestroying(whenDestroying);
+			_logger = context.getLogger(this);
+			context.whenInitializing(whenInitializing);
+			context.whenDestroying(whenDestroying);
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function whenInitializing():void
 		{
-			if (_manualStageObserver == null)
+			// Hark, an actual Singleton!
+			if (!_manualStageObserver)
 			{
 				const containerRegistry:ContainerRegistry = _injector.getInstance(ContainerRegistry);
+				_logger.debug("Creating genuine ManualStageObserver Singleton");
 				_manualStageObserver = new ManualStageObserver(containerRegistry);
 			}
 		}
@@ -61,6 +73,7 @@ package robotlegs.bender.extensions.viewManager
 			_installCount--;
 			if (_installCount == 0)
 			{
+				_logger.debug("Destroying genuine ManualStageObserver Singleton");
 				_manualStageObserver.destroy();
 				_manualStageObserver = null;
 			}

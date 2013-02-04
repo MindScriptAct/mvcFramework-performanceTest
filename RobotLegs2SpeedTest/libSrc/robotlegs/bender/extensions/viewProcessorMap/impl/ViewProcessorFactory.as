@@ -19,30 +19,39 @@ package robotlegs.bender.extensions.viewProcessorMap.impl
 	import robotlegs.bender.framework.impl.applyHooks;
 	import robotlegs.bender.framework.impl.guardsApprove;
 
+	/**
+	 * @private
+	 */
 	public class ViewProcessorFactory implements IViewProcessorFactory
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private var _injector:Injector;
 
 		private var _listenersByView:Dictionary = new Dictionary(true);
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @private
+		 */
 		public function ViewProcessorFactory(injector:Injector)
 		{
 			_injector = injector;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function runProcessors(view:Object, type:Class, processorMappings:Array):void
 		{
 			createRemovedListener(view, type, processorMappings);
@@ -58,6 +67,9 @@ package robotlegs.bender.extensions.viewProcessorMap.impl
 			}
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function runUnprocessors(view:Object, type:Class, processorMappings:Array):void
 		{
 			for each (var mapping:IViewProcessorMapping in processorMappings)
@@ -68,6 +80,9 @@ package robotlegs.bender.extensions.viewProcessorMap.impl
 			}
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function runAllUnprocessors():void
 		{
 			for each (var removalHandlers:Array in _listenersByView)
@@ -80,9 +95,9 @@ package robotlegs.bender.extensions.viewProcessorMap.impl
 			}
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function runProcess(view:Object, type:Class, mapping:IViewProcessorMapping):void
 		{

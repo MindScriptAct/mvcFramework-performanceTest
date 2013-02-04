@@ -9,9 +9,10 @@ import org.mvcexpress.core.ProxyMap;
 
 /**
  * Core Module class. Used if you don't want your module be display object.
+ * Usually it is good idea to create your main(shell) module from ModuleCore.
  * <p>
- * It starts framework and lets you set up your application. (or execute Commands that will do it.)
- * Also you can create modular application by having more then one module.
+ * It starts framework and lets you set up your application. (or execute Commands for set up.)
+ * You can create modular application by having more then one module.
  * </p>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
@@ -27,7 +28,6 @@ public class ModuleCore {
 	 * CONSTRUCTOR
 	 * @param	moduleName	module name that is used for referencing a module. (if not provided - unique name will be generated.)
 	 * @param	autoInit	if set to false framework is not initialized for this module. If you want to use framework features you will have to manually init() it first.
-	 * 						(or you start getting null reference errors.)
 	 */
 	public function ModuleCore(moduleName:String = null, autoInit:Boolean = true) {
 		use namespace pureLegsCore;
@@ -36,7 +36,7 @@ public class ModuleCore {
 		proxyMap = moduleBase.proxyMap;
 		mediatorMap = moduleBase.mediatorMap;
 		commandMap = moduleBase.commandMap;
-		//
+		
 		if (autoInit) {
 			onInit();
 		}
@@ -97,12 +97,34 @@ public class ModuleCore {
 	
 	/**
 	 * Sends scoped module to module message, all modules that are listening to specified scopeName and message type will get it.
-	 * @param	scopeName	both sending and receiving modules must use same scope to make module to module comminication.
+	 * @param	scopeName	both sending and receiving modules must use same scope to make module to module communication.
 	 * @param	type		type of the message for Commands or Mediator's handle function to react to.
-	 * @param	params		Object that will be passed to Command execute() function and to handle functions.
+	 * @param	params		Object that will be passed to Command execute() function or to handle functions.
 	 */
 	protected function sendScopeMessage(scopeName:String, type:String, params:Object = null):void {
 		moduleBase.sendScopeMessage(scopeName, type, params);
+	}
+	
+	/**
+	 * Registers scope name.
+	 * If scope name is not registered - module to module communication via scope and mapping proxies to scope is not possible.
+	 * What features module can use with that scope is defined by parameters.
+	 * @param	scopeName			Name of the scope.
+	 * @param	messageSending		Modules can send messages to this scope.
+	 * @param	messageReceiving	Modules can receive and handle messages from this scope.(or map commands to scoped messages);
+	 * @param	proxieMap			Modules can map proxies to this scope.
+	 */
+	protected function registerScope(scopeName:String, messageSending:Boolean = true, messageReceiving:Boolean = true, proxieMapping:Boolean = false):void {
+		moduleBase.registerScope(scopeName, messageSending, messageReceiving, proxieMapping);
+	}
+	
+	/**
+	 * Unregisters scope name.
+	 * Then scope is not registered module to module communication via scope and mapping proxies to scope becomes not possible.
+	 * @param	scopeName			Name of the scope.
+	 */
+	protected function unregisterScope(scopeName:String):void {
+		moduleBase.unregisterScope(scopeName);
 	}
 	
 	//----------------------------------

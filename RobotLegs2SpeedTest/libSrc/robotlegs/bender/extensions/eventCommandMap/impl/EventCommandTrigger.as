@@ -14,12 +14,15 @@ package robotlegs.bender.extensions.eventCommandMap.impl
 	import robotlegs.bender.extensions.commandCenter.api.ICommandTrigger;
 	import robotlegs.bender.extensions.commandCenter.impl.CommandMappingList;
 
+	/**
+	 * @private
+	 */
 	public class EventCommandTrigger implements ICommandTrigger
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private const _mappings:CommandMappingList = new CommandMappingList();
 
@@ -31,10 +34,13 @@ package robotlegs.bender.extensions.eventCommandMap.impl
 
 		private var _eventClass:Class;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @private
+		 */
 		public function EventCommandTrigger(
 			injector:Injector,
 			dispatcher:IEventDispatcher,
@@ -47,10 +53,13 @@ package robotlegs.bender.extensions.eventCommandMap.impl
 			_executor = new EventCommandExecutor(this, _mappings, injector, eventClass);
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function addMapping(mapping:ICommandMapping):void
 		{
 			verifyCommandClass(mapping);
@@ -58,6 +67,9 @@ package robotlegs.bender.extensions.eventCommandMap.impl
 			_mappings.add(mapping);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function removeMapping(mapping:ICommandMapping):void
 		{
 			_mappings.remove(mapping);
@@ -69,9 +81,9 @@ package robotlegs.bender.extensions.eventCommandMap.impl
 			return _eventClass + " with selector '" + _type + "'";
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function verifyCommandClass(mapping:ICommandMapping):void
 		{

@@ -12,21 +12,27 @@ package robotlegs.bender.extensions.viewManager.impl
 	import flash.events.Event;
 	import flash.utils.getQualifiedClassName;
 
+	/**
+	 * @private
+	 */
 	public class StageObserver
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private const _filter:RegExp = /^mx\.|^spark\.|^flash\./;
 
 		private var _registry:ContainerRegistry;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @private
+		 */
 		public function StageObserver(containerRegistry:ContainerRegistry)
 		{
 			_registry = containerRegistry;
@@ -40,10 +46,13 @@ package robotlegs.bender.extensions.viewManager.impl
 			}
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @private
+		 */
 		public function destroy():void
 		{
 			_registry.removeEventListener(ContainerRegistryEvent.ROOT_CONTAINER_ADD, onRootContainerAdd);
@@ -54,9 +63,9 @@ package robotlegs.bender.extensions.viewManager.impl
 			}
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function onRootContainerAdd(event:ContainerRegistryEvent):void
 		{

@@ -15,25 +15,34 @@ package robotlegs.bender.extensions.vigilance
 	import robotlegs.bender.framework.api.ILogTarget;
 	import robotlegs.bender.framework.api.LogLevel;
 
+	/**
+	 * The Vigilance Extension throws Errors when warnings are logged.
+	 */
 	public class VigilanceExtension implements IExtension, ILogTarget
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private const _messageParser:LogMessageParser = new LogMessageParser();
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function extend(context:IContext):void
 		{
 			context.addLogTarget(this);
 			context.injector.addEventListener(MappingEvent.MAPPING_OVERRIDE, mappingOverrideHandler)
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function log(source:Object, level:uint, timestamp:int, message:String, params:Array = null):void
 		{
 			if (level <= LogLevel.WARN)
@@ -42,9 +51,9 @@ package robotlegs.bender.extensions.vigilance
 			}
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function mappingOverrideHandler(event:MappingEvent):void
 		{

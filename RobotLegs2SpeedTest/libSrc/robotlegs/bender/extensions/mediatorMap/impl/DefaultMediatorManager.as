@@ -15,12 +15,15 @@ package robotlegs.bender.extensions.mediatorMap.impl
 	import robotlegs.bender.extensions.mediatorMap.api.IMediatorMapping;
 	import robotlegs.bender.extensions.mediatorMap.api.MediatorFactoryEvent;
 
+	/**
+	 * @private
+	 */
 	public class DefaultMediatorManager
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Static Properties                                                  */
-		//============================================================================
+		/*============================================================================*/
 
 		private static var UIComponentClass:Class;
 
@@ -28,16 +31,19 @@ package robotlegs.bender.extensions.mediatorMap.impl
 
 		private static const CREATION_COMPLETE:String = "creationComplete";
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private var _factory:IMediatorFactory;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @private
+		 */
 		public function DefaultMediatorManager(factory:IMediatorFactory)
 		{
 			_factory = factory;
@@ -45,9 +51,9 @@ package robotlegs.bender.extensions.mediatorMap.impl
 			_factory.addEventListener(MediatorFactoryEvent.MEDIATOR_REMOVE, onMediatorRemove);
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Static Functions                                                   */
-		//============================================================================
+		/*============================================================================*/
 
 		private static function checkFlex():Boolean
 		{
@@ -62,9 +68,9 @@ package robotlegs.bender.extensions.mediatorMap.impl
 			return UIComponentClass != null;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Functions                                                          */
-		//============================================================================
+		/*============================================================================*/
 
 		private function onMediatorCreate(event:MediatorFactoryEvent):void
 		{

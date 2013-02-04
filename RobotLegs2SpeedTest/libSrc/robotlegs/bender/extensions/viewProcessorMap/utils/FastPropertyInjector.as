@@ -9,28 +9,47 @@ package robotlegs.bender.extensions.viewProcessorMap.utils
 {
 	import org.swiftsuspenders.Injector;
 
+	/**
+	 * Avoids view reflection by using a provided map
+	 * of property names to dependency types
+	 */
 	public class FastPropertyInjector
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Private Properties                                                         */
-		//============================================================================
+		/*============================================================================*/
 
 		private var _propertyTypesByName:Object;
 
-		//============================================================================
+		/*============================================================================*/
 		/* Constructor                                                                */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * Creates a Fast Property Injection Processor
+		 *
+		 * <code>
+		 *     new FastPropertyInjector({
+		 *         userService: IUserService,
+		 *         userPM: UserPM
+		 *     })
+		 * </code>
+		 *
+		 * @param propertyTypesByName A map of property names to dependency types
+		 */
 		public function FastPropertyInjector(propertyTypesByName:Object)
 		{
 			_propertyTypesByName = propertyTypesByName;
 		}
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @private
+		 */
 		public function process(view:Object, type:Class, injector:Injector):void
 		{
 			for (var propName:String in _propertyTypesByName)
@@ -39,9 +58,11 @@ package robotlegs.bender.extensions.viewProcessorMap.utils
 			}
 		}
 
+		/**
+		 * @private
+		 */
 		public function unprocess(view:Object, type:Class, injector:Injector):void
 		{
-
 		}
 	}
 }

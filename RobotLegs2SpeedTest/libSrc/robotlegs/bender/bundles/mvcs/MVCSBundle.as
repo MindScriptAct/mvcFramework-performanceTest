@@ -19,28 +19,37 @@ package robotlegs.bender.bundles.mvcs
 	import robotlegs.bender.extensions.modularity.ModularityExtension;
 	import robotlegs.bender.extensions.stageSync.StageSyncExtension;
 	import robotlegs.bender.extensions.viewManager.ManualStageObserverExtension;
+	import robotlegs.bender.extensions.viewManager.StageCrawlerExtension;
 	import robotlegs.bender.extensions.viewManager.StageObserverExtension;
 	import robotlegs.bender.extensions.viewManager.ViewManagerExtension;
+	import robotlegs.bender.extensions.vigilance.VigilanceExtension;
 	import robotlegs.bender.framework.api.IBundle;
 	import robotlegs.bender.framework.api.IContext;
+	import robotlegs.bender.framework.api.LogLevel;
 
 	/**
 	 * For that Classic Robotlegs flavour
 	 *
-	 * <p>This bundle installs a number of extensions commonly used in typical Robotlegs
-	 * applications and modules.</p>
+	 * <p>This bundle installs a number of extensions commonly used
+	 * in typical Robotlegs applications and modules.</p>
 	 */
 	public class MVCSBundle implements IBundle
 	{
 
-		//============================================================================
+		/*============================================================================*/
 		/* Public Functions                                                           */
-		//============================================================================
+		/*============================================================================*/
 
+		/**
+		 * @inheritDoc
+		 */
 		public function extend(context:IContext):void
 		{
+			context.logLevel = LogLevel.DEBUG;
+
 			context.install(
 				TraceLoggingExtension,
+				VigilanceExtension,
 				InjectableLoggerExtension,
 				ContextViewExtension,
 				EventDispatcherExtension,
@@ -52,6 +61,7 @@ package robotlegs.bender.bundles.mvcs
 				StageObserverExtension,
 				ManualStageObserverExtension,
 				MediatorMapExtension,
+				StageCrawlerExtension,
 				StageSyncExtension);
 
 			context.configure(ContextViewListenerConfig);

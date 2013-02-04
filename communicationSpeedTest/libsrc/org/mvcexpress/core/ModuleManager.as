@@ -2,12 +2,15 @@
 package org.mvcexpress.core {
 import flash.utils.Dictionary;
 import org.mvcexpress.core.inject.InjectRuleVO;
+import org.mvcexpress.core.inject.PendingInject;
+import org.mvcexpress.core.inject.testInject;
 import org.mvcexpress.core.messenger.HandlerVO;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
-import org.mvcexpress.core.traceObjects.MvcTraceActions;
-import org.mvcexpress.core.traceObjects.TraceModuleManager_createModule;
-import org.mvcexpress.core.traceObjects.TraceModuleManager_disposeModule;
+import org.mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_createModule;
+import org.mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_disposeModule;
+import org.mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_registerScope;
+import org.mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_unregisterScope;
 import org.mvcexpress.mvc.Proxy;
 import org.mvcexpress.MvcExpress;
 
@@ -36,6 +39,11 @@ public class ModuleManager {
 	/* all proxies maped to scope */
 	static private var scopedProxiesByScope:Dictionary = new Dictionary(); /* of Dictionary(of ProxyMap by Proxy) by String{moduleName} */
 	
+	static private var needMetadataTest:Boolean = true;
+	
+	/* all module permision datas by modleName and scopeName */
+	static private var scopePermissionsRegistry:Dictionary = new Dictionary(); /* of Dictionary (of ScopePermissionData by scopeName String) by moduleName String */
+	
 	/** CONSTRUCTOR */
 	public function ModuleManager() {
 		throw Error("ModuleFactory is static framework class for internal use. Not meant to be instantiated.");
@@ -49,11 +57,21 @@ public class ModuleManager {
 	 * @private
 	 */
 	static pureLegsCore function createModule(moduleName:String, autoInit:Boolean):ModuleBase {
+		
+		// tests if framework can read 'Inject' metadata tag.
+		if (needMetadataTest) {
+			needMetadataTest = false;
+			var injectTest:testInject = new testInject();
+			if (!injectTest.testInjectMetaTag()) {
+				throw Error("mvcExpress framework failed to use 'Inject' metadata. Please add '-keep-as3-metadata+=Inject' to compile arguments.");
+			}
+		}
+		
 		var retVal:ModuleBase;
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceModuleManager_createModule(MvcTraceActions.MODULEMANAGER_CREATEMODULE, moduleName, autoInit));
+			MvcExpress.debug(new TraceModuleManager_createModule(moduleName, autoInit));
 		}
 		if (moduleRegistry[moduleName] == null) {
 			_moduleId++;
@@ -64,7 +82,7 @@ public class ModuleManager {
 			//
 			retVal = ModuleBase.getModuleInstance(moduleName, autoInit);
 			moduleRegistry[moduleName] = retVal;
-			allModules.push(retVal);
+			allModules[allModules.length] = retVal;
 				//
 		} else {
 			throw Error("You can't have 2 modules with same name. call disposeModule() on old module before creating new one with same name. [moduleName:" + moduleName + "]");
@@ -92,35 +110,30 @@ public class ModuleManager {
 		use namespace pureLegsCore;
 		// debug this action
 		CONFIG::debug {
-			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceModuleManager_disposeModule(MvcTraceActions.MODULEMANAGER_DISPOSEMODULE, moduleName));
+			MvcExpress.debug(new TraceModuleManager_disposeModule(moduleName));
 		}
 		if (moduleRegistry[moduleName]) {
-			// TODO : optimize unmaping for module disposing
 			// remove scoped proxies from this module
 			var scopiedProxies:Dictionary = scopedProxiesByScope[moduleName];
 			if (scopiedProxies) {
-				//for each (var scopedProxyData:ScopedProxyData in scopiedProxies) {
-				//var scopedProxy:Proxy = scopedProxyData.scopedProxyMap.getProxy(scopedProxyData.injectClass, scopedProxyData.name);
-				//delete scopiedProxies[scopedProxy];
-				//scopedProxyData.scopedProxyMap.scopeUnmap(scopedProxyData.scopeName, scopedProxyData.injectClass, scopedProxyData.name);
-				//}
-				
-				for (var injectId:String in scopiedProxies) {
-					var scopedProxyData:ScopedProxyData = scopiedProxies[injectId];
+				// remove scoped proxies.
+				for each (var scopedProxyData:ScopedProxyData in scopiedProxies) {
 					var scopedProxyMap:ProxyMap = scopedProxyMaps[scopedProxyData.scopeName];
 					scopedProxyMap.unmap(scopedProxyData.injectClass, scopedProxyData.name);
-					delete scopiedProxies[injectId];
+					delete scopiedProxies[scopedProxyData.injectId];
 				}
 			}
 			//
 			delete moduleRegistry[moduleName];
-			for (var j:int = 0; j < allModules.length; j++) {
+			var moduleCount:int = allModules.length;
+			for (var j:int; j < moduleCount; j++) {
 				if (allModules[j].moduleName == moduleName) {
 					allModules.splice(j, 1);
 					break;
 				}
 			}
+			//
+			delete scopePermissionsRegistry[moduleName];
 		} else {
 			throw Error("Module with moduleName:" + moduleName + " doesn't exist.");
 		}
@@ -132,8 +145,23 @@ public class ModuleManager {
 	
 	/** sends scoped message
 	 * @private */
-	static pureLegsCore function sendScopeMessage(scopeName:String, type:String, params:Object):void {
+	static pureLegsCore function sendScopeMessage(moduleName:String, scopeName:String, type:String, params:Object, checkPermisions:Boolean = true):void {
 		use namespace pureLegsCore;
+		
+		if (checkPermisions) {
+			
+			// get permission object
+			if (scopePermissionsRegistry[moduleName]) {
+				var scopePermission:ScopePermissionData = scopePermissionsRegistry[moduleName][scopeName];
+			}
+			
+			// check if action is available
+			if (!scopePermission || !scopePermission.messageSending) {
+				throw Error("Module with name:" + moduleName + " has no permition to send messages to scope:" + scopeName + ". Please use: registerScopeTest() function.");
+			}
+		}
+		
+		// send messages
 		var scopeMesanger:Messenger = scopedMessengers[scopeName];
 		if (scopeMesanger) {
 			scopeMesanger.send(scopeName + "_^~_" + type, params);
@@ -142,7 +170,18 @@ public class ModuleManager {
 	
 	/** add scoped handler
 	 * @private */
-	static pureLegsCore function addScopeHandler(scopeName:String, type:String, handler:Function):HandlerVO {
+	static pureLegsCore function addScopeHandler(moduleName:String, scopeName:String, type:String, handler:Function):HandlerVO {
+		
+		// get permission object
+		if (scopePermissionsRegistry[moduleName]) {
+			var scopePermission:ScopePermissionData = scopePermissionsRegistry[moduleName][scopeName];
+		}
+		
+		// check if action is available
+		if (!scopePermission || !scopePermission.messageReceiving) {
+			throw Error("Module with name:" + moduleName + " has no permition to receive messages from scope:" + scopeName + ". Please use: registerScopeTest() function.");
+		}
+		
 		var scopeMesanger:Messenger = scopedMessengers[scopeName];
 		if (!scopeMesanger) {
 			use namespace pureLegsCore;
@@ -157,7 +196,6 @@ public class ModuleManager {
 	/** remove scoped handler
 	 * @private */
 	static pureLegsCore function removeScopeHandler(scopeName:String, type:String, handler:Function):void {
-		//use namespace pureLegsCore;
 		var scopeMesanger:Messenger = scopedMessengers[scopeName];
 		if (scopeMesanger) {
 			scopeMesanger.removeHandler(scopeName + "_^~_" + type, handler);
@@ -177,7 +215,18 @@ public class ModuleManager {
 	 * @return
 	 * @private
 	 */
-	static pureLegsCore function scopedCommandMap(handleCommandExecute:Function, scopeName:String, type:String, commandClass:Class):HandlerVO {
+	static pureLegsCore function scopedCommandMap(moduleName:String, handleCommandExecute:Function, scopeName:String, type:String, commandClass:Class):HandlerVO {
+		
+		// get permission object
+		if (scopePermissionsRegistry[moduleName]) {
+			var scopePermission:ScopePermissionData = scopePermissionsRegistry[moduleName][scopeName];
+		}
+		
+		// check if action is available
+		if (!scopePermission || !scopePermission.messageReceiving) {
+			throw Error("Module with name:" + moduleName + " has no permition to receive messages and execute commands from scope:" + scopeName + ". Please use: registerScopeTest() function.");
+		}
+		
 		var scopeMesanger:Messenger = scopedMessengers[scopeName];
 		if (!scopeMesanger) {
 			use namespace pureLegsCore;
@@ -203,6 +252,18 @@ public class ModuleManager {
 	 * @private
 	 */
 	static pureLegsCore function scopeMap(moduleName:String, scopeName:String, proxyObject:Proxy, injectClass:Class, name:String):void {
+		
+		// get permission object
+		if (scopePermissionsRegistry[moduleName]) {
+			var scopePermission:ScopePermissionData = scopePermissionsRegistry[moduleName][scopeName];
+		}
+		
+		// check if action is available
+		if (!scopePermission || !scopePermission.proxieMapping) {
+			throw Error("Module with name:" + moduleName + " has no permition to map proxies to scope:" + scopeName + ". Please use: registerScopeTest() function.");
+		}
+		
+		use namespace pureLegsCore;
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[scopeName];
 		if (!scopedProxyMap) {
 			initScopedProxyMap(scopeName);
@@ -211,16 +272,13 @@ public class ModuleManager {
 		var injectId:String = scopedProxyMap.map(proxyObject, injectClass, name);
 		
 		// add scope to proxy so it could send scoped messages.
-		use namespace pureLegsCore;
 		proxyObject.addScope(scopeName);
-		
-		// if injectClass is not provided - proxyClass will be used instead.
-		
-		// TODO : optimize unmaping for module disposing
 		
 		var scopedProxyData:ScopedProxyData = new ScopedProxyData();
 		scopedProxyData.scopedProxy = proxyObject;
 		scopedProxyData.scopeName = scopeName;
+		scopedProxyData.injectId = injectId;
+		// if injectClass is not provided - proxyClass will be used instead.
 		if (injectClass) {
 			scopedProxyData.injectClass = injectClass;
 		} else {
@@ -245,11 +303,14 @@ public class ModuleManager {
 	static pureLegsCore function scopeUnmap(moduleName:String, scopeName:String, injectClass:Class, name:String):void {
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[scopeName];
 		if (scopedProxyMap) {
-			// TODO : optimize unmaping for module disposing
 			var injectId:String = scopedProxyMap.unmap(injectClass, name);
 			// remove scope from proxy, so it would stop sending scoped messages.
 			use namespace pureLegsCore;
-			scopedProxiesByScope[moduleName][injectId].scopedProxy.removeScope(scopeName);
+			if (scopedProxiesByScope[moduleName]) {
+				if (scopedProxiesByScope[moduleName][injectId]) {
+					scopedProxiesByScope[moduleName][injectId].scopedProxy.removeScope(scopeName);
+				}
+			}
 			delete scopedProxiesByScope[moduleName][injectId];
 		}
 	}
@@ -261,13 +322,13 @@ public class ModuleManager {
 	 * @return
 	 * @private
 	 */
-	static pureLegsCore function injectScopedProxy(object:Object, injectRule:InjectRuleVO):Boolean {
+	static pureLegsCore function injectScopedProxy(recipientObject:Object, injectRule:InjectRuleVO):Boolean {
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[injectRule.scopeName];
 		if (scopedProxyMap) {
 			use namespace pureLegsCore;
 			var ijectProxy:Proxy = scopedProxyMap.getProxyById(injectRule.injectClassAndName);
 			if (ijectProxy) {
-				object[injectRule.varName] = ijectProxy;
+				recipientObject[injectRule.varName] = ijectProxy;
 				return true;
 			}
 		}
@@ -281,14 +342,13 @@ public class ModuleManager {
 	 * @param	pendingInject
 	 * @private
 	 */
-	static pureLegsCore function addPendingScopedInjection(scopeName:String, injectClassAndName:String, pendingInject:Object):void {
-		trace("ModuleManager.addPendingScopedInjection > scopeName : " + scopeName + ", injectClassAndName : " + injectClassAndName + ", pendingInject : " + pendingInject);
+	static pureLegsCore function addPendingScopedInjection(scopeName:String, injectClassAndName:String, pendingInject:PendingInject):void {
+		use namespace pureLegsCore;
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[scopeName];
 		if (!scopedProxyMap) {
 			initScopedProxyMap(scopeName);
 			scopedProxyMap = scopedProxyMaps[scopeName];
 		}
-		use namespace pureLegsCore;
 		scopedProxyMap.addPendingInjection(injectClassAndName, pendingInject);
 	}
 	
@@ -309,6 +369,49 @@ public class ModuleManager {
 	}
 	
 	//----------------------------------
+	//     Scope managment
+	//----------------------------------
+	
+	static pureLegsCore function registerScope(moduleName:String, scopeName:String, messageSending:Boolean, messageReceiving:Boolean, proxieMapping:Boolean):void {
+		// debug this action
+		CONFIG::debug {
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceModuleManager_registerScope(moduleName, scopeName, messageSending, messageReceiving, proxieMapping));
+		}
+		
+		// create dictionary for scope permisions by moduleName
+		if (!scopePermissionsRegistry[moduleName]) {
+			scopePermissionsRegistry[moduleName] = new Dictionary();
+		}
+		if (!scopePermissionsRegistry[moduleName][scopeName]) {
+			scopePermissionsRegistry[moduleName][scopeName] = new ScopePermissionData();
+		}
+		
+		var scopePermission:ScopePermissionData = scopePermissionsRegistry[moduleName][scopeName];
+		
+		// set values
+		scopePermission.messageSending = messageSending;
+		scopePermission.messageReceiving = messageReceiving;
+		scopePermission.proxieMapping = proxieMapping;
+	}
+	
+	static pureLegsCore function unregisterScope(moduleName:String, scopeName:String):void {
+		// debug this action
+		CONFIG::debug {
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceModuleManager_unregisterScope(moduleName, scopeName));
+		}
+		
+		// remove permision data for scope if exists
+		if (scopePermissionsRegistry[moduleName]) {
+			if (scopePermissionsRegistry[moduleName][scopeName]) {
+				delete scopePermissionsRegistry[moduleName][scopeName];
+			}
+		}
+	
+	}
+	
+	//----------------------------------
 	//     DEBUG
 	//----------------------------------
 	
@@ -318,7 +421,7 @@ public class ModuleManager {
 	 */
 	static public function listModules():String {
 		var retVal:String = "";
-		for (var i:int = 0; i < allModules.length; i++) {
+		for (var i:int; i < allModules.length; i++) {
 			if (retVal != "") {
 				retVal += ",";
 			}
@@ -367,23 +470,6 @@ public class ModuleManager {
 			return "Module with name :" + moduleName + " is not found.";
 		}
 	}
-	
-	//----------------------------------
-	//     DEPRICATED
-	//----------------------------------
-	
-	/**
-	 * sends message to all messengers.
-	 * @param	type				message type to find needed handlers
-	 * @param	params				parameter object that will be sent to all handler functions as single parameter.
-	 * @private
-	 */
-	static pureLegsCore function sendMessageToAll(type:String, params:Object):void {
-		use namespace pureLegsCore;
-		for (var i:int = 0; i < allModules.length; i++) {
-			allModules[i].messenger.send(type, params);
-		}
-	}
 
 }
 }
@@ -393,6 +479,15 @@ import org.mvcexpress.mvc.Proxy;
 class ScopedProxyData {
 	public var scopedProxy:Proxy;
 	public var scopeName:String;
+
 	public var injectClass:Class;
 	public var name:String;
+	
+	public var injectId:String;
+}
+
+class ScopePermissionData {
+	public var messageSending:Boolean;
+	public var messageReceiving:Boolean;
+	public var proxieMapping:Boolean;
 }
