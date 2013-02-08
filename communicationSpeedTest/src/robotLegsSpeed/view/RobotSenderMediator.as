@@ -19,13 +19,13 @@ public class RobotSenderMediator extends Mediator {
 	
 	private function handleTestEvent(event:TestEvent):void {
 		for (var i:int = 0; i < TestConfig.MESSAGE_COUNT; i++) {
-			dispatch(new SimpleEvent(SimpleEvent.EVENT_TEST, "someData"));
+			dispatch(new SimpleEvent(SimpleEvent.EVENT_TEST, TestConfig.SIMPLE_STRING));
 		}
 	}
 	
 	private function handleComplexTestEvent(event:TestEvent):void {
 		for (var j:int = 0; j < TestConfig.MESSAGE_COUNT; j++) {
-			dispatch(new ComplexEvent(ComplexEvent.COMPLEX_EVENT_TEST, "someMoreData", 11, 12.5, [1, 2, 3], new Point(10, 20)));
+			dispatch(new ComplexEvent(ComplexEvent.COMPLEX_EVENT_TEST, TestConfig.COMPlEX_STRING, TestConfig.COMPlEX_INT, TestConfig.COMPlEX_NUMBER, TestConfig.COMPlEX_ARRAY, TestConfig.COMPlEX_POINT));
 		}
 	}
 }

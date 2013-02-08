@@ -41,12 +41,12 @@ public class PureSenderMediator extends Mediator implements IMediator {
 		switch (notice.getName()) {
 			case Notice.RUN_TEST: 
 				for (var i:int = 0; i < TestConfig.MESSAGE_COUNT; i++) {
-					sendNotification(Notice.MSG_TEST, "someData");
+					sendNotification(Notice.MSG_TEST, TestConfig.SIMPLE_STRING);
 				}
 				break;
 			case Notice.RUN_COMPLEX_TEST: 
 				for (var j:int = 0; j < TestConfig.MESSAGE_COUNT; j++) {
-					sendNotification(Notice.COMPLEX_MSG_TEST, new ComplexParamsVO("someMoreData", 11, 12.5, [1, 2, 3], new Point(10, 20)));
+					sendNotification(Notice.COMPLEX_MSG_TEST, new ComplexParamsVO(TestConfig.COMPlEX_STRING, TestConfig.COMPlEX_INT, TestConfig.COMPlEX_NUMBER, TestConfig.COMPlEX_ARRAY, TestConfig.COMPlEX_POINT));
 				}
 				break;
 			default: 

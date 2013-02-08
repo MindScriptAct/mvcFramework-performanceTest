@@ -9,8 +9,6 @@ import flash.geom.Point;
  * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class EventSender extends Sprite {
-	//static private var _savedEvent:SimpleEvent = new SimpleEvent(SimpleEvent.EVENT_TEST, "someData");
-	//static private var _savedEvent2:ComplexEvent = new ComplexEvent(ComplexEvent.COMPLEX_EVENT_TEST, "someMoreData", 11, 12.5, [1, 2, 3], new Point(10, 20));
 	
 	public function EventSender() {
 	
@@ -18,13 +16,13 @@ public class EventSender extends Sprite {
 	
 	public function runTest():void {
 		for (var i:int = 0; i < TestConfig.MESSAGE_COUNT; i++) {
-			dispatchEvent(new SimpleEvent(SimpleEvent.EVENT_TEST, "someData"));
+			dispatchEvent(new SimpleEvent(SimpleEvent.EVENT_TEST, TestConfig.SIMPLE_STRING));
 		}
 	}
 	
 	public function runComplexTest():void {
 		for (var i:int = 0; i < TestConfig.MESSAGE_COUNT; i++) {
-			dispatchEvent(new ComplexEvent(ComplexEvent.COMPLEX_EVENT_TEST, "someMoreData", 11, 12.5, [1, 2, 3], new Point(10, 20)));
+			dispatchEvent(new ComplexEvent(ComplexEvent.COMPLEX_EVENT_TEST, TestConfig.COMPlEX_STRING, TestConfig.COMPlEX_INT, TestConfig.COMPlEX_NUMBER, TestConfig.COMPlEX_ARRAY, TestConfig.COMPlEX_POINT));
 		}
 	}
 	

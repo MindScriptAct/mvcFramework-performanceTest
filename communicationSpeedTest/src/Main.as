@@ -116,7 +116,7 @@ public class Main extends Sprite {
 		eventSender.runTest();
 		var testResult_event:int = getTimer() - testTime_event;
 		/*---------->*/
-		print("Simple event test:", "Total time: " + testResult_event + "\t\t\t\tavr time for 1 message:" + (testResult_event / TestConfig.MESSAGE_COUNT));
+		print("Simple event test:", "Total time: " + testResult_event + "\t\t\t\tavr time for 1 message:\t" + (testResult_event / TestConfig.MESSAGE_COUNT));
 		
 		setTimeout(testSimpleSignal, 500);
 	}
@@ -128,7 +128,7 @@ public class Main extends Sprite {
 		signalSender.runTest();
 		var testResult_signal:int = getTimer() - testTime_signal;
 		/*---------->*/
-		print("Simple signal test:", "Total time: " + testResult_signal + "\t\t\t\tavr time for 1 message:" + (testResult_signal / TestConfig.MESSAGE_COUNT));
+		print("Simple signal test:", "Total time: " + testResult_signal + "\t\t\t\tavr time for 1 message:\t" + (testResult_signal / TestConfig.MESSAGE_COUNT));
 		
 		setTimeout(testSimpleCallBack, 500);
 	}
@@ -140,7 +140,7 @@ public class Main extends Sprite {
 		callbackSender.runTest();
 		var testResult_callBack:int = getTimer() - testTime_callBack;
 		/*---------->*/
-		print("Simple callback test:", "Total time: " + testResult_callBack + "\t\t\t\tavr time for 1 message:" + (testResult_callBack / TestConfig.MESSAGE_COUNT));
+		print("Simple callback test:", "Total time: " + testResult_callBack + "\t\t\t\tavr time for 1 message:\t" + (testResult_callBack / TestConfig.MESSAGE_COUNT));
 		
 		setTimeout(testSimplePureMvcMessaging, 500);
 		print("");
@@ -158,7 +158,7 @@ public class Main extends Sprite {
 		mainFacade.runTest();
 		var testResult_pureMvc:int = getTimer() - testTime_pureMvc;
 		/*---------->*/
-		print("Simple PureMvc test:", "Total time: " + testResult_pureMvc + "\t\t\t\tavr time for 1 message:" + (testResult_pureMvc / TestConfig.MESSAGE_COUNT));
+		print("Simple PureMvc test:", "Total time: " + testResult_pureMvc + "\t\t\t\tavr time for 1 message:\t" + (testResult_pureMvc / TestConfig.MESSAGE_COUNT));
 		
 		setTimeout(testSimpleRobotlegsMessages, 500);
 	}
@@ -170,7 +170,7 @@ public class Main extends Sprite {
 		mainContext.runTest();
 		var testResult_Robotlegs:int = getTimer() - testTime_robotLegs;
 		/*---------->*/
-		print("Simple robotlegs test:", "Total time: " + testResult_Robotlegs + "\t\t\t\tavr time for 1 message:" + (testResult_Robotlegs / TestConfig.MESSAGE_COUNT));
+		print("Simple robotlegs test:", "Total time: " + testResult_Robotlegs + "\t\t\t\tavr time for 1 message:\t" + (testResult_Robotlegs / TestConfig.MESSAGE_COUNT));
 		setTimeout(testSimpleMvcexpresMessages, 500);
 	}
 	
@@ -181,7 +181,7 @@ public class Main extends Sprite {
 		mvcExpressModule.runTest();
 		var testResult_message:int = getTimer() - testTime_message;
 		/*---------->*/
-		print("Simple mvcExpress test:", "Total time: " + testResult_message + " \t\t\t\tavr time for 1 message:" + (testResult_message / TestConfig.MESSAGE_COUNT));
+		print("Simple mvcExpress test:", "Total time: " + testResult_message + " \t\t\t\tavr time for 1 message:\t" + (testResult_message / TestConfig.MESSAGE_COUNT));
 		
 		setTimeout(testComplexEvent, 200);
 		print("");
@@ -199,7 +199,7 @@ public class Main extends Sprite {
 		eventSender.runComplexTest();
 		var testResult_event:int = getTimer() - testTime_event;
 		/*---------->*/
-		print("Complex event test:", "Total time: " + testResult_event + "\t\t\t\tavr time for 1 message:" + (testResult_event / TestConfig.MESSAGE_COUNT));
+		print("Complex event test:", "Total time: " + testResult_event + "\t\t\t\tavr time for 1 message:\t" + (testResult_event / TestConfig.MESSAGE_COUNT));
 		
 		setTimeout(testComplexSignal, 500);
 	
@@ -212,7 +212,7 @@ public class Main extends Sprite {
 		signalSender.runComplexTest();
 		var testResult_signal:int = getTimer() - testTime_signal;
 		/*---------->*/
-		print("Complex signal test:", "Total time: " + testResult_signal + "\t\t\t\tavr time for 1 message:" + (testResult_signal / TestConfig.MESSAGE_COUNT));
+		print("Complex signal test:", "Total time: " + testResult_signal + "\t\t\t\tavr time for 1 message:\t" + (testResult_signal / TestConfig.MESSAGE_COUNT));
 		
 		setTimeout(testComplexCallBack, 500);
 	}
@@ -224,7 +224,7 @@ public class Main extends Sprite {
 		callbackSender.runComplexTest();
 		var testResult_callBack:int = getTimer() - testTime_callBack;
 		/*---------->*/
-		print("Complex callback test:", "Total time: " + testResult_callBack + "\t\t\t\tavr time for 1 message:" + (testResult_callBack / TestConfig.MESSAGE_COUNT));
+		print("Complex callback test:", "Total time: " + testResult_callBack + "\t\t\t\tavr time for 1 message:\t" + (testResult_callBack / TestConfig.MESSAGE_COUNT));
 		
 		setTimeout(testComplexPureMvcMessaging, 500);
 		
@@ -243,7 +243,7 @@ public class Main extends Sprite {
 		mainFacade.runCamplexTest();
 		var testResult_pureMvc:int = getTimer() - testTime_pureMvc;
 		/*---------->*/
-		print("Complex PureMVC test:", "Total time: " + testResult_pureMvc + "\t\t\t\tavr time for 1 message:" + (testResult_pureMvc / TestConfig.MESSAGE_COUNT));
+		print("Complex PureMVC test:", "Total time: " + testResult_pureMvc + "\t\t\t\tavr time for 1 message:\t" + (testResult_pureMvc / TestConfig.MESSAGE_COUNT));
 		
 		setTimeout(testComplexRobotlegsMessaging, 500);
 	}
@@ -255,7 +255,7 @@ public class Main extends Sprite {
 		mainContext.runComplexTest();
 		var testResult_Robotlegs:int = getTimer() - testTime_robotLegs;
 		/*---------->*/
-		print("Complex robotlegs test:", "Total time: " + testResult_Robotlegs + "\t\t\t\tavr time for 1 message:" + (testResult_Robotlegs / TestConfig.MESSAGE_COUNT));
+		print("Complex robotlegs test:", "Total time: " + testResult_Robotlegs + "\t\t\t\tavr time for 1 message:\t" + (testResult_Robotlegs / TestConfig.MESSAGE_COUNT));
 		
 		setTimeout(testComplexMvcexpressMessages, 500);
 	}
@@ -267,7 +267,7 @@ public class Main extends Sprite {
 		mvcExpressModule.runComplexTest();
 		var testResult_message:int = getTimer() - testTime_message;
 		/*---------->*/
-		print("Complex mvcExpress test:", "Total time: " + testResult_message + "\t\t\t\tavr time for 1 message:" + (testResult_message / TestConfig.MESSAGE_COUNT));
+		print("Complex mvcExpress test:", "Total time: " + testResult_message + "\t\t\t\tavr time for 1 message:\t" + (testResult_message / TestConfig.MESSAGE_COUNT));
 		
 		print("");
 		print("Done.");

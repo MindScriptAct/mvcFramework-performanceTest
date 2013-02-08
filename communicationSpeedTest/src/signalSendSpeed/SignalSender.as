@@ -20,13 +20,13 @@ public class SignalSender extends Sprite {
 	
 	public function runTest():void {
 		for (var i:int = 0; i < TestConfig.MESSAGE_COUNT; i++) {
-			simpleSignal.dispatch("someData");
+			simpleSignal.dispatch(TestConfig.SIMPLE_STRING);
 		}
 	}
 	
 	public function runComplexTest():void {
 		for (var i:int = 0; i < TestConfig.MESSAGE_COUNT; i++) {
-			complexSignal.dispatch(new SignalVO("someMoreData", 11, 12.5, [1, 2, 3], new Point(10, 20)));
+			complexSignal.dispatch(new SignalVO(TestConfig.COMPlEX_STRING, TestConfig.COMPlEX_INT, TestConfig.COMPlEX_NUMBER, TestConfig.COMPlEX_ARRAY, TestConfig.COMPlEX_POINT));
 		}
 	}
 

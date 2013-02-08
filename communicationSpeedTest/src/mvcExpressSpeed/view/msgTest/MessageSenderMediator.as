@@ -22,13 +22,13 @@ public class MessageSenderMediator extends Mediator {
 	
 	public function handleRunTest(blank:Object):void {
 		for (var i:int = 0; i < TestConfig.MESSAGE_COUNT; i++) {
-			sendMessage(Msg.MSG_TEST, "someData");
+			sendMessage(Msg.MSG_TEST, TestConfig.SIMPLE_STRING);
 		}
 	}
 	
 	public function handleRunComplexTest(blank:Object):void {
 		for (var i:int = 0; i < TestConfig.MESSAGE_COUNT; i++) {
-			sendMessage(Msg.COMPLEX_MSG_TEST, new ComplexParamsVO("someMoreData", 11, 12.5, [1, 2, 3], new Point(10, 20)));
+			sendMessage(Msg.COMPLEX_MSG_TEST, new ComplexParamsVO(TestConfig.COMPlEX_STRING, TestConfig.COMPlEX_INT, TestConfig.COMPlEX_NUMBER, TestConfig.COMPlEX_ARRAY, TestConfig.COMPlEX_POINT));
 		}
 	}
 	
